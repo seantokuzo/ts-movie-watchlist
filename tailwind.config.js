@@ -2,21 +2,23 @@
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    colors: {
-      'bg-light': '#fcfcfc',
-      'bg-dark': '#121212',
-      'text-lm': '#000',
-      'text-dm': '#fff',
-      'search-text': '#444444',
-      'plot-lm': '#6b7280',
-      'plot-dm': '#a5a5a5',
-      'empty-grey': '#787878',
-      'dark-grey': '#2e2e2f',
-      'light-grey': '#dfdddd'
-    },
+    // colors: {
+    //   'bg-light': '#fcfcfc',
+    //   'bg-dark': '#121212',
+    //   'text-lm': '#000',
+    //   'text-dm': '#fff',
+    //   'search-text': '#444444',
+    //   'plot-lm': '#6b7280',
+    //   'plot-dm': '#a5a5a5',
+    //   'empty-grey': '#787878',
+    //   'dark-grey': '#2e2e2f',
+    //   'light-grey': '#dfdddd',
+    //   'green-lt': '#749f82',
+    //   'red-lt': '#DD5353'
+    // },
     fontFamily: {
       reg: ['Inter', 'sans-serif'],
-      serif: ['Merriweather', 'serif']
+      serif: ['Teko', 'serif']
     },
     extend: {
       spacing: {

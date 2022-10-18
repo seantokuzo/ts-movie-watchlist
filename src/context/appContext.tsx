@@ -1,38 +1,50 @@
 import React, { useReducer, useContext } from 'react'
-import { FAKE_ACTION } from './actions'
+import { SET_MOVIES_SUCCESS } from './actions'
 import reducer from './reducer'
+
+export interface Movie {
+  id: number
+  poster: string
+  title: string
+  rating: number
+  date: string
+  genre: number[]
+  plot: 'string'
+}
 
 export interface StateInterface {
   mode: string
+  movies: Movie[] | []
 }
 
 const initialState: StateInterface = {
-  mode: 'home'
+  mode: 'home',
+  movies: []
 }
 
 export interface AppContextInterface extends StateInterface {
-  fakeAction: () => void
+  setMovies?: (movies: Movie[]) => void
 }
 
-const AppContext = React.createContext<AppContextInterface | null>(null)
+// const AppContext = React.createContext<AppContextInterface | null>(null)
+const AppContext = React.createContext<AppContextInterface>(initialState)
 
 type Props = {
   children: JSX.Element | JSX.Element[]
 }
 
 const AppContextProvider = ({ children }: Props) => {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, dispatch] = useReducer<Reducer>(reducer, initialState)
 
-  const fakeAction = () => {
-    dispatch({ type: FAKE_ACTION })
-    console.log('Fake Action')
+  const setMovies = (movies: Movie[]) => {
+    dispatch({ type: SET_MOVIES_SUCCESS, payload: { movies } })
   }
 
   return (
     <AppContext.Provider
       value={{
         ...state,
-        fakeAction
+        setMovies
       }}
     >
       {children}

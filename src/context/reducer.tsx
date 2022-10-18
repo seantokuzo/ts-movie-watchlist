@@ -1,13 +1,23 @@
-import { FAKE_ACTION } from './actions'
-import { initialState, StateInterface } from './appContext'
+import { SET_MOVIES_SUCCESS } from './actions'
+import { initialState, StateInterface, Movie } from './appContext'
 
-type Action = { type: string; payload?: object }
+type Payload = {
+  movies?: Movie[]
+}
+
+type Action = { type: string; payload: Payload }
 
 const reducer = (state: StateInterface, action: Action) => {
-  if (action.type === FAKE_ACTION) {
+  if (action.type === SET_MOVIES_SUCCESS) {
     return {
       ...state,
       mode: state.mode === 'home' ? 'fake' : initialState.mode
+    }
+  }
+  if (action.type === SET_MOVIES_SUCCESS) {
+    return {
+      ...state,
+      movies: action.payload.movies
     }
   }
 
