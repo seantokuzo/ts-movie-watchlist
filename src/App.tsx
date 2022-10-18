@@ -16,7 +16,7 @@ function App() {
   // }, [])
 
   return (
-    <div className="font-serif w-screen h-full bg-blue-400">
+    <div className="font-serif w-screen h-screen bg-blue-400">
       <Header />
       <SharedLayout />
     </div>
