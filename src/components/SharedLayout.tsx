@@ -6,7 +6,11 @@ const SharedLayout = () => {
   const { mode } = useAppContext()
   console.log(mode)
 
-  return <div>{mode === 'home' && <CurrentMovies />}</div>
+  return (
+    <div className="w-screen h-screen flex flex-col content-center items-center">
+      {mode === 'home' && <CurrentMovies />}
+    </div>
+  )
 }
 
 export default SharedLayout
