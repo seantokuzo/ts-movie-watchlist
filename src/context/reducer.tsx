@@ -1,27 +1,27 @@
-import { SET_MOVIES_SUCCESS } from './actions'
+import { ActionType } from './actions'
 import { initialState, StateInterface, Movie } from './appContext'
 
-type Payload = {
-  movies?: Movie[]
-}
+type Action =
+  | { type: ActionType.SET_MOVIES_SUCCESS; payload: { movies: Movie[] } }
+  | { type: ActionType.SET_MOVIES_ERROR; payload: { msg: string } }
 
-type Action = { type: string; payload: Payload }
-
-const reducer = (state: StateInterface, action: Action) => {
-  if (action.type === SET_MOVIES_SUCCESS) {
-    return {
-      ...state,
-      mode: state.mode === 'home' ? 'fake' : initialState.mode
-    }
-  }
-  if (action.type === SET_MOVIES_SUCCESS) {
+const reducer = (state: StateInterface, action: Action): StateInterface => {
+  if (action.type === ActionType.SET_MOVIES_SUCCESS) {
     return {
       ...state,
       movies: action.payload.movies
     }
   }
+  if (action.type === ActionType.SET_MOVIES_ERROR) {
+    return {
+      ...state,
+      showAlert: true,
+      AlertType: 'danger',
+      AlertText: action.payload.msg
+    }
+  }
 
-  throw new Error(`No such action: ${action.type}`)
+  throw new Error(`No such action: ${action}`)
 }
 
 export default reducer
