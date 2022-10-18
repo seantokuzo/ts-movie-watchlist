@@ -1,5 +1,5 @@
 import React, { useReducer, useContext } from 'react'
-import { SET_MOVIES_SUCCESS } from './actions'
+import { ActionType } from './actions'
 import reducer from './reducer'
 
 export interface Movie {
@@ -13,31 +13,48 @@ export interface Movie {
 }
 
 export interface StateInterface {
-  mode: string
+  mode: 'home'
   movies: Movie[] | []
+  isLoading: boolean
+  showAlert: boolean
+  AlertType: 'success' | 'danger' | ''
+  AlertText: string
 }
 
 const initialState: StateInterface = {
   mode: 'home',
-  movies: []
+  movies: [],
+  isLoading: false,
+  showAlert: false,
+  AlertType: '',
+  AlertText: ''
 }
 
 export interface AppContextInterface extends StateInterface {
-  setMovies?: (movies: Movie[]) => void
+  setMovies: (movies: Movie[]) => void
 }
 
-// const AppContext = React.createContext<AppContextInterface | null>(null)
-const AppContext = React.createContext<AppContextInterface>(initialState)
+// interface DispatchObject {
+//   type: string
+//   payload?: object
+// }
+
+// type Dispatch = (x: DispatchObject) => void
+
+const AppContext = React.createContext<AppContextInterface>({
+  ...initialState,
+  setMovies: () => null
+})
 
 type Props = {
   children: JSX.Element | JSX.Element[]
 }
 
 const AppContextProvider = ({ children }: Props) => {
-  const [state, dispatch] = useReducer<Reducer>(reducer, initialState)
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   const setMovies = (movies: Movie[]) => {
-    dispatch({ type: SET_MOVIES_SUCCESS, payload: { movies } })
+    dispatch({ type: ActionType.SET_MOVIES_SUCCESS, payload: { movies } })
   }
 
   return (
@@ -53,7 +70,7 @@ const AppContextProvider = ({ children }: Props) => {
 }
 
 const useAppContext = () => {
-  return useContext(AppContext)
+  return useContext(AppContext) as AppContextInterface
 }
 
 export { initialState, AppContextProvider, useAppContext }
