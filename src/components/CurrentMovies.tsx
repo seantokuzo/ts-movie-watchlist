@@ -36,9 +36,7 @@ const CurrentMovies: React.FC = () => {
             poster: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
             title: movie.title,
             rating: movie.vote_average,
-            date: movie.release_date
-              ? movie.release_date.slice(0, 4)
-              : 'N/A',
+            date: movie.release_date ? movie.release_date.slice(0, 4) : 'N/A',
             genre: movie.genre_ids,
             plot: movie.overview
           }))
@@ -57,8 +55,11 @@ const CurrentMovies: React.FC = () => {
   )
 
   return (
-    <div className="w-screen p-5 flex flex-row flex-wrap content-between items-start bg-blue-400 border-2 border-red-600">
-      {movieEls}
+    <div className="w-full max-w-4xl flex flex-col content-center items-center p-5 bg-blue-400">
+      <h2 className="text-4xl">Now Playing</h2>
+      <div className="w-full flex flex-row flex-wrap content-between items-start">
+        {movieEls}
+      </div>
     </div>
   )
 }
