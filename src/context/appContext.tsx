@@ -1,6 +1,17 @@
 import React, { useReducer, useContext } from 'react'
+import { TMDB_KEY } from '../fake.env'
 import { ActionType } from './actions'
 import reducer from './reducer'
+
+const blankMovieObj = {
+  id: 0,
+  poster: '',
+  title: 'Title unavailable',
+  rating: 0,
+  date: 'Date unavailable',
+  genre: [],
+  plot: 'Plot unavailable'
+}
 
 export interface Movie {
   id: number
@@ -9,12 +20,13 @@ export interface Movie {
   rating: number
   date: string
   genre: number[]
-  plot: 'string'
+  plot: string
 }
 
 export interface StateInterface {
-  mode: 'home'
+  mode: 'home' | 'details'
   movies: Movie[] | []
+  details: Movie
   isLoading: boolean
   showAlert: boolean
   AlertType: 'success' | 'danger' | ''
@@ -24,6 +36,7 @@ export interface StateInterface {
 const initialState: StateInterface = {
   mode: 'home',
   movies: [],
+  details: blankMovieObj,
   isLoading: false,
   showAlert: false,
   AlertType: '',
@@ -32,6 +45,7 @@ const initialState: StateInterface = {
 
 export interface AppContextInterface extends StateInterface {
   setMovies: (movies: Movie[]) => void
+  getMovieDetails: (movieId: number) => void
 }
 
 // interface DispatchObject {
@@ -43,7 +57,8 @@ export interface AppContextInterface extends StateInterface {
 
 const AppContext = React.createContext<AppContextInterface>({
   ...initialState,
-  setMovies: () => null
+  setMovies: () => null,
+  getMovieDetails: () => null
 })
 
 type Props = {
@@ -57,11 +72,20 @@ const AppContextProvider = ({ children }: Props) => {
     dispatch({ type: ActionType.SET_MOVIES_SUCCESS, payload: { movies } })
   }
 
+  const getMovieDetails = async (movieId: number) => {
+    const selectedMovie = state.movies.filter(
+      (movie) => movie.id === movieId
+    )[0]
+    console.log(selectedMovie)
+    dispatch({ type: ActionType.SET_DETAILS, payload: { selectedMovie } })
+  }
+
   return (
     <AppContext.Provider
       value={{
         ...state,
-        setMovies
+        setMovies,
+        getMovieDetails
       }}
     >
       {children}

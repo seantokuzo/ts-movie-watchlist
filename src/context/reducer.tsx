@@ -1,9 +1,10 @@
 import { ActionType } from './actions'
-import { initialState, StateInterface, Movie } from './appContext'
+import { StateInterface, Movie } from './appContext'
 
 type Action =
   | { type: ActionType.SET_MOVIES_SUCCESS; payload: { movies: Movie[] } }
   | { type: ActionType.SET_MOVIES_ERROR; payload: { msg: string } }
+  | { type: ActionType.SET_DETAILS; payload: { selectedMovie: Movie } }
 
 const reducer = (state: StateInterface, action: Action): StateInterface => {
   if (action.type === ActionType.SET_MOVIES_SUCCESS) {
@@ -18,6 +19,13 @@ const reducer = (state: StateInterface, action: Action): StateInterface => {
       showAlert: true,
       AlertType: 'danger',
       AlertText: action.payload.msg
+    }
+  }
+  if (action.type === ActionType.SET_DETAILS) {
+    return {
+      ...state,
+      mode: 'details',
+      details: action.payload.selectedMovie
     }
   }
 
