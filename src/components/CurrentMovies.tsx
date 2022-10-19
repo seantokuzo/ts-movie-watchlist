@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useAppContext } from '../context/appContext'
+// SIGN UP @ https://developers.themoviedb.org/3/getting-started/introduction to get your own API key
 import { TMDB_KEY } from '../fake.env'
 import MovieCardBasic from './MovieCardBasic'
 
@@ -29,7 +30,6 @@ const CurrentMovies: React.FC = () => {
     fetch(fetchString)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.results)
         setMovies(
           data.results.map((movie: TmdbMovieResponse) => ({
             id: movie.id,
@@ -49,7 +49,7 @@ const CurrentMovies: React.FC = () => {
   const movieEls = (
     <>
       {movies.map((movie) => (
-        <MovieCardBasic movie={movie} />
+        <MovieCardBasic movie={movie} key={movie.id} />
       ))}
     </>
   )
