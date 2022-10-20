@@ -6,11 +6,11 @@ const MovieCardBasic: React.FC<{ movie: Movie }> = ({ movie }) => {
 
   return (
     <div
-      className="w-1/3 max-w-lg p-1 flex flex-col content-center items-center"
+      className="w-1/2 lg:w-1/3 max-w-lg px-1 py-2 flex flex-col content-center items-center"
       onClick={() => getMovieDetails(movie.id)}
     >
       <img src={movie.poster} alt="Movie Poster" className="w-full"></img>
-      <h2>{movie.title}</h2>
+      <h3 className='text-lg text-center leading-none mt-2'>{movie.title}</h3>
     </div>
   )
 }

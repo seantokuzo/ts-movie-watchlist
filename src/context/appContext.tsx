@@ -1,9 +1,8 @@
 import React, { useReducer, useContext } from 'react'
-import { TMDB_KEY } from '../fake.env'
 import { ActionType } from './actions'
 import reducer from './reducer'
 
-const blankMovieObj = {
+export const blankMovieObj = {
   id: 0,
   poster: '',
   title: 'Title unavailable',
@@ -45,6 +44,7 @@ const initialState: StateInterface = {
 
 export interface AppContextInterface extends StateInterface {
   setMovies: (movies: Movie[]) => void
+  getNowPlaying: () => void
   getMovieDetails: (movieId: number) => void
 }
 
@@ -58,6 +58,7 @@ export interface AppContextInterface extends StateInterface {
 const AppContext = React.createContext<AppContextInterface>({
   ...initialState,
   setMovies: () => null,
+  getNowPlaying: () => null,
   getMovieDetails: () => null
 })
 
@@ -72,7 +73,11 @@ const AppContextProvider = ({ children }: Props) => {
     dispatch({ type: ActionType.SET_MOVIES_SUCCESS, payload: { movies } })
   }
 
-  const getMovieDetails = async (movieId: number) => {
+  const getNowPlaying = () => {
+    dispatch({ type: ActionType.GET_NOW_PLAYING })
+  }
+
+  const getMovieDetails = (movieId: number) => {
     const selectedMovie = state.movies.filter(
       (movie) => movie.id === movieId
     )[0]
@@ -85,7 +90,8 @@ const AppContextProvider = ({ children }: Props) => {
       value={{
         ...state,
         setMovies,
-        getMovieDetails
+        getMovieDetails,
+        getNowPlaying
       }}
     >
       {children}

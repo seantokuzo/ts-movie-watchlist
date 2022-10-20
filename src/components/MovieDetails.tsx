@@ -1,15 +1,15 @@
 import React from 'react'
 import { useAppContext } from '../context/appContext'
-import genreIds from '../data/genre-data'
+import { translateGenres } from '../data/genre-data'
 
 const MovieDetails: React.FC = () => {
   const { details } = useAppContext()
 
-  // const translateGenres = details.genre.map((id) => genreIds[id])
+  const genres = details.genre.map((id) => translateGenres(id)).join(', ')
 
   return (
-    <div>
-      <img src={details.poster} alt="Movie Poster" />
+    <div className="w-full p-5 flex flex-col content-center items-center">
+      <img className="w-2/3" src={details.poster} alt="Movie Poster" />
       <div>
         <div>
           <h2>{details.title}</h2>
@@ -18,7 +18,7 @@ const MovieDetails: React.FC = () => {
         <div>
           <div>
             <p>{details.date}</p>
-            {/* <p>{translateGenres.join(', ')}</p> */}
+            <p>{genres}</p>
           </div>
         </div>
       </div>
