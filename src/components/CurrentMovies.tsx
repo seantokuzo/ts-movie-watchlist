@@ -6,7 +6,7 @@ import MovieCardBasic from './MovieCardBasic'
 
 const fetchString = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_KEY}&now-playing&popularity.gte=3000?language=en-US`
 
-interface TmdbMovieResponse {
+export interface TmdbMovieResponse {
   adult: boolean
   backdrop_path: string
   genre_ids: number[]
