@@ -8,22 +8,24 @@ const MovieDetails: React.FC = () => {
   const genres = details.genre.map((id) => translateGenres(id)).join(', ')
 
   return (
-    <div className="my-5 p-5 flex content-center items-center border-2 bg-black/[.54]">
-      <img className="w-1/3 max-w-xs" src={details.poster} alt="Movie Poster" />
-      <div>
-        <div>
-          <h2>{details.title}</h2>
-          <p>{details.rating}</p>
-        </div>
-        <div>
-          <div>
-            <p>{details.date}</p>
-            <p>{genres}</p>
-          </div>
-          <div>
-            <p>{details.plot}</p>
-          </div>
-        </div>
+    <div className="pt-7 pb-6 px-5 flex flex-col justify-center items-center bg-black/[.54] text-gray-100">
+      <h2 className="text-5xl">{details.title}</h2>
+      <p className="text-base">({details.date})</p>
+      <img
+        className="w-2/3 max-w-xs mt-2 mb-4"
+        src={details.poster}
+        alt="Movie Poster"
+      />
+      <div className="flex items-baseline text-xl">
+        <i className="fa-solid fa-star mr-1 text-yellow-400"></i>
+        <p>{details.rating}</p>
+      </div>
+      <div className="min-w-1/2 flex flex-row justify-evenly items-center text-xl">
+        <p>{genres}</p>
+      </div>
+      <div className="my-3 w-3/4 h-[1px] border-[1px] border-white/[.25]"></div>
+      <div className="px-4">
+        <p className="text-lg">{details.plot}</p>
       </div>
     </div>
   )
