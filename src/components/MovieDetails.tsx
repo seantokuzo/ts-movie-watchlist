@@ -16,12 +16,12 @@ const MovieDetails: React.FC = () => {
         src={details.poster}
         alt="Movie Poster"
       />
-      <div className="flex items-baseline text-xl">
-        <i className="fa-solid fa-star mr-1 text-yellow-400"></i>
-        <p>{details.rating}</p>
-      </div>
       <div className="min-w-1/2 flex flex-row justify-evenly items-center text-xl">
         <p>{genres}</p>
+      </div>
+      <div className="flex items-baseline text-xl">
+        <p>{details.rating}</p>
+        <i className="fa-solid fa-star ml-1 text-yellow-400"></i>
       </div>
       <div className="my-3 w-3/4 h-[1px] border-[1px] border-white/[.25]"></div>
       <div className="px-4">
