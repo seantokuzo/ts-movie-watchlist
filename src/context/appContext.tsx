@@ -26,6 +26,7 @@ export interface StateInterface {
   mode: 'home' | 'details' | 'search' | 'watchlist'
   movies: Movie[] | []
   details: Movie
+  searchResults: Movie[] | []
   isLoading: boolean
   showAlert: boolean
   AlertType: 'success' | 'danger' | ''
@@ -36,6 +37,7 @@ const initialState: StateInterface = {
   mode: 'home',
   movies: [],
   details: blankMovieObj,
+  searchResults: [],
   isLoading: false,
   showAlert: false,
   AlertType: '',
@@ -47,6 +49,8 @@ export interface AppContextInterface extends StateInterface {
   getNowPlaying: () => void
   getMovieDetails: (movieId: number) => void
   setSearchMode: () => void
+  setSearchResults: (movies: Movie[] | []) => void
+  setWatchlistMode: () => void
 }
 
 // interface DispatchObject {
@@ -61,7 +65,9 @@ const AppContext = React.createContext<AppContextInterface>({
   setMovies: () => null,
   getNowPlaying: () => null,
   getMovieDetails: () => null,
-  setSearchMode: () => null
+  setSearchMode: () => null,
+  setSearchResults: () => null,
+  setWatchlistMode: () => null
 })
 
 type Props = {
@@ -88,9 +94,15 @@ const AppContextProvider = ({ children }: Props) => {
   }
 
   const setSearchMode = () => {
-    console.log('set search mode')
+    dispatch({ type: ActionType.SET_SEARCH_MODE })
+  }
 
-    // dispatch({ type: ActionType.SET_SEARCH_MODE })
+  const setSearchResults = (movies: Movie[] | []) => {
+    dispatch({ type: ActionType.SET_SEARCH_RESULTS, payload: { movies } })
+  }
+
+  const setWatchlistMode = () => {
+    dispatch({ type: ActionType.SET_WATCHLIST_MODE })
   }
 
   return (
@@ -100,7 +112,9 @@ const AppContextProvider = ({ children }: Props) => {
         setMovies,
         getMovieDetails,
         getNowPlaying,
-        setSearchMode
+        setSearchMode,
+        setSearchResults,
+        setWatchlistMode
       }}
     >
       {children}

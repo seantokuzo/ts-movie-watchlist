@@ -7,6 +7,8 @@ type Action =
   | { type: ActionType.GET_NOW_PLAYING }
   | { type: ActionType.SET_DETAILS; payload: { selectedMovie: Movie } }
   | { type: ActionType.SET_SEARCH_MODE }
+  | { type: ActionType.SET_SEARCH_RESULTS; payload: { movies: Movie[] | [] } }
+  | { type: ActionType.SET_WATCHLIST_MODE }
 
 const reducer = (state: StateInterface, action: Action): StateInterface => {
   if (action.type === ActionType.SET_MOVIES_SUCCESS) {
@@ -41,6 +43,18 @@ const reducer = (state: StateInterface, action: Action): StateInterface => {
     return {
       ...state,
       mode: 'search'
+    }
+  }
+  if (action.type === ActionType.SET_SEARCH_RESULTS) {
+    return {
+      ...state,
+      searchResults: action.payload.movies
+    }
+  }
+  if (action.type === ActionType.SET_WATCHLIST_MODE) {
+    return {
+      ...state,
+      mode: 'watchlist'
     }
   }
 
