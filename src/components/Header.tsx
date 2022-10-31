@@ -2,7 +2,7 @@ import React from 'react'
 import { useAppContext } from '../context/appContext'
 
 const Header: React.FC = () => {
-  const { getNowPlaying } = useAppContext()
+  const { getNowPlaying, setSearchMode } = useAppContext()
   return (
     <header className="w-screen bg-blue-500 py-8 px-3">
       <h1 className="text-6xl font-bold text-center text-gray-100">
@@ -17,7 +17,7 @@ const Header: React.FC = () => {
         </div>
         <div
           className="mx-1 px-4 py-1.5 border-blue-300 border-2 rounded-l-full rounded-r-full"
-          onClick={getNowPlaying}
+          onClick={setSearchMode}
         >
           <p className="text-lg flex flex-row content-center items-center">
             Search
