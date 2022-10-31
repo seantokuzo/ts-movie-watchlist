@@ -23,7 +23,7 @@ export interface Movie {
 }
 
 export interface StateInterface {
-  mode: 'home' | 'details'
+  mode: 'home' | 'details' | 'search' | 'watchlist'
   movies: Movie[] | []
   details: Movie
   isLoading: boolean
@@ -46,6 +46,7 @@ export interface AppContextInterface extends StateInterface {
   setMovies: (movies: Movie[]) => void
   getNowPlaying: () => void
   getMovieDetails: (movieId: number) => void
+  setSearchMode: () => void
 }
 
 // interface DispatchObject {
@@ -59,7 +60,8 @@ const AppContext = React.createContext<AppContextInterface>({
   ...initialState,
   setMovies: () => null,
   getNowPlaying: () => null,
-  getMovieDetails: () => null
+  getMovieDetails: () => null,
+  setSearchMode: () => null
 })
 
 type Props = {
@@ -85,13 +87,20 @@ const AppContextProvider = ({ children }: Props) => {
     dispatch({ type: ActionType.SET_DETAILS, payload: { selectedMovie } })
   }
 
+  const setSearchMode = () => {
+    console.log('set search mode')
+
+    // dispatch({ type: ActionType.SET_SEARCH_MODE })
+  }
+
   return (
     <AppContext.Provider
       value={{
         ...state,
         setMovies,
         getMovieDetails,
-        getNowPlaying
+        getNowPlaying,
+        setSearchMode
       }}
     >
       {children}

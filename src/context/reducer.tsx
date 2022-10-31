@@ -6,6 +6,7 @@ type Action =
   | { type: ActionType.SET_MOVIES_ERROR; payload: { msg: string } }
   | { type: ActionType.GET_NOW_PLAYING }
   | { type: ActionType.SET_DETAILS; payload: { selectedMovie: Movie } }
+  | { type: ActionType.SET_SEARCH_MODE }
 
 const reducer = (state: StateInterface, action: Action): StateInterface => {
   if (action.type === ActionType.SET_MOVIES_SUCCESS) {
@@ -34,6 +35,12 @@ const reducer = (state: StateInterface, action: Action): StateInterface => {
       ...state,
       mode: 'details',
       details: action.payload.selectedMovie
+    }
+  }
+  if (action.type === ActionType.SET_SEARCH_MODE) {
+    return {
+      ...state,
+      mode: 'search'
     }
   }
 
