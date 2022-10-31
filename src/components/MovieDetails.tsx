@@ -8,8 +8,8 @@ const MovieDetails: React.FC = () => {
   const genres = details.genre.map((id) => translateGenres(id)).join(', ')
 
   return (
-    <div className="w-full p-5 flex flex-col content-center items-center">
-      <img className="w-2/3" src={details.poster} alt="Movie Poster" />
+    <div className="my-5 p-5 flex content-center items-center border-2 bg-black/[.54]">
+      <img className="w-1/3 max-w-xs" src={details.poster} alt="Movie Poster" />
       <div>
         <div>
           <h2>{details.title}</h2>
@@ -19,6 +19,9 @@ const MovieDetails: React.FC = () => {
           <div>
             <p>{details.date}</p>
             <p>{genres}</p>
+          </div>
+          <div>
+            <p>{details.plot}</p>
           </div>
         </div>
       </div>
