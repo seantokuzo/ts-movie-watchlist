@@ -3,6 +3,7 @@ import { useAppContext } from '../context/appContext'
 // SIGN UP @ https://developers.themoviedb.org/3/getting-started/introduction to get your own API key
 import { TMDB_KEY } from '../fake.env'
 import MovieCardBasic from './MovieCardBasic'
+import { convertTmdbData } from '../util/convertTmdbData'
 
 const fetchString = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_KEY}&now-playing&popularity.gte=3000?language=en-US`
 
@@ -29,19 +30,7 @@ const CurrentMovies: React.FC = () => {
   useEffect(() => {
     fetch(fetchString)
       .then((res) => res.json())
-      .then((data) => {
-        setMovies(
-          data.results.map((movie: TmdbMovieResponse) => ({
-            id: movie.id,
-            poster: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
-            title: movie.title,
-            rating: movie.vote_average,
-            date: movie.release_date ? movie.release_date.slice(0, 4) : 'N/A',
-            genre: movie.genre_ids,
-            plot: movie.overview
-          }))
-        )
-      })
+      .then((data) => setMovies(convertTmdbData(data.results)))
       .catch((err) => console.log(err))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
