@@ -5,11 +5,15 @@ const Header: React.FC = () => {
   const { mode, getNowPlaying, setSearchMode, setWatchlistMode } =
     useAppContext()
   return (
-    <header className="w-screen bg-blue-500 py-4 px-3">
+    <header
+      className={`w-full bg-blue-500 pt-4 ${
+        mode === 'search' ? 'pb-6' : 'pb-4'
+      } px-3`}
+    >
       <h1 className="text-6xl font-bold text-center text-gray-100">
         Movie Mania
       </h1>
-      <div className="w-full py-2 px-3 flex flex-row flex-wrap content-center items-start">
+      <div className="w-full py-2 px-3 flex flex-row flex-wrap justify-center items-start">
         <div
           className={`mx-1 px-4 py-1.5 border-blue-300 border-2 rounded-l-full rounded-r-full ${
             mode === 'home' ? 'bg-blue-300' : 'bg-none'
