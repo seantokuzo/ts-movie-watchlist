@@ -14,7 +14,7 @@ export const blankMovieObj = {
 
 export interface Movie {
   id: number
-  poster: string
+  poster: string | ''
   title: string
   rating: number
   date: string
@@ -27,17 +27,21 @@ export interface StateInterface {
   movies: Movie[] | []
   details: Movie
   searchResults: Movie[] | []
+  watchlist: Movie[] | []
   isLoading: boolean
   showAlert: boolean
   AlertType: 'success' | 'danger' | ''
   AlertText: string
 }
 
+const localWatchlist = localStorage.getItem('watchlist')
+
 const initialState: StateInterface = {
   mode: 'home',
   movies: [],
   details: blankMovieObj,
   searchResults: [],
+  watchlist: localWatchlist ? JSON.parse(localWatchlist) : [],
   isLoading: false,
   showAlert: false,
   AlertType: '',
@@ -47,10 +51,12 @@ const initialState: StateInterface = {
 export interface AppContextInterface extends StateInterface {
   setMovies: (movies: Movie[]) => void
   getNowPlaying: () => void
-  getMovieDetails: (movieId: number) => void
+  getMovieDetails: (movie: Movie) => void
   setSearchMode: () => void
   setSearchResults: (movies: Movie[] | []) => void
   setWatchlistMode: () => void
+  addToWatchlist: (movie: Movie) => void
+  removeFromWatchlist: (movie: Movie) => void
 }
 
 // interface DispatchObject {
@@ -67,7 +73,9 @@ const AppContext = React.createContext<AppContextInterface>({
   getMovieDetails: () => null,
   setSearchMode: () => null,
   setSearchResults: () => null,
-  setWatchlistMode: () => null
+  setWatchlistMode: () => null,
+  addToWatchlist: () => null,
+  removeFromWatchlist: () => null
 })
 
 type Props = {
@@ -85,12 +93,11 @@ const AppContextProvider = ({ children }: Props) => {
     dispatch({ type: ActionType.GET_NOW_PLAYING })
   }
 
-  const getMovieDetails = (movieId: number) => {
-    const selectedMovie = state.movies.filter(
-      (movie) => movie.id === movieId
-    )[0]
-    console.log(selectedMovie)
-    dispatch({ type: ActionType.SET_DETAILS, payload: { selectedMovie } })
+  const getMovieDetails = (movie: Movie) => {
+    dispatch({
+      type: ActionType.SET_DETAILS,
+      payload: { selectedMovie: movie }
+    })
   }
 
   const setSearchMode = () => {
@@ -105,6 +112,31 @@ const AppContextProvider = ({ children }: Props) => {
     dispatch({ type: ActionType.SET_WATCHLIST_MODE })
   }
 
+  const addToWatchlist = (movie: Movie) => {
+    if (
+      state.watchlist.some((watchlistMovie) => watchlistMovie.id === movie.id)
+    ) {
+      alert('Watchlist includes movie already')
+      return
+    }
+
+    const updatedWatchlist = [...state.watchlist, movie]
+    dispatch({
+      type: ActionType.ADD_TO_WATCHLIST,
+      payload: { updatedWatchlist }
+    })
+    localStorage.setItem('watchlist', JSON.stringify(updatedWatchlist))
+  }
+
+  const removeFromWatchlist = (movie: Movie) => {
+    const updatedWatchlist = [...state.watchlist.filter((mov) => mov !== movie)]
+    dispatch({
+      type: ActionType.REMOVE_FROM_WATCHLIST,
+      payload: { updatedWatchlist }
+    })
+    localStorage.setItem('watchlist', JSON.stringify(updatedWatchlist))
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -114,7 +146,9 @@ const AppContextProvider = ({ children }: Props) => {
         getNowPlaying,
         setSearchMode,
         setSearchResults,
-        setWatchlistMode
+        setWatchlistMode,
+        addToWatchlist,
+        removeFromWatchlist
       }}
     >
       {children}

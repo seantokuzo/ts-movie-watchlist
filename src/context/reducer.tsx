@@ -9,6 +9,14 @@ type Action =
   | { type: ActionType.SET_SEARCH_MODE }
   | { type: ActionType.SET_SEARCH_RESULTS; payload: { movies: Movie[] | [] } }
   | { type: ActionType.SET_WATCHLIST_MODE }
+  | {
+      type: ActionType.ADD_TO_WATCHLIST
+      payload: { updatedWatchlist: Movie[] }
+    }
+  | {
+      type: ActionType.REMOVE_FROM_WATCHLIST
+      payload: { updatedWatchlist: Movie[] | [] }
+    }
 
 const reducer = (state: StateInterface, action: Action): StateInterface => {
   if (action.type === ActionType.SET_MOVIES_SUCCESS) {
@@ -55,6 +63,18 @@ const reducer = (state: StateInterface, action: Action): StateInterface => {
     return {
       ...state,
       mode: 'watchlist'
+    }
+  }
+  if (action.type === ActionType.ADD_TO_WATCHLIST) {
+    return {
+      ...state,
+      watchlist: action.payload.updatedWatchlist
+    }
+  }
+  if (action.type === ActionType.REMOVE_FROM_WATCHLIST) {
+    return {
+      ...state,
+      watchlist: action.payload.updatedWatchlist
     }
   }
 
