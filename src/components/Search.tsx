@@ -3,6 +3,7 @@ import { useAppContext } from '../context/appContext'
 import { TmdbMovieResponse } from './CurrentMovies'
 import { TMDB_KEY } from '../fake.env'
 import MovieCardBasic from './MovieCardBasic'
+import { convertTmdbData } from '../util/convertTmdbData'
 
 const Search: React.FC = () => {
   const { searchResults, setSearchResults } = useAppContext()
@@ -22,19 +23,7 @@ const Search: React.FC = () => {
           } else if (data.total_results === 0) {
             setSearchResults([])
           } else if (data.results.length > 0) {
-            setSearchResults(
-              data.results.map((movie: TmdbMovieResponse) => ({
-                id: movie.id,
-                poster: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
-                title: movie.title,
-                rating: movie.vote_average,
-                date: movie.release_date
-                  ? movie.release_date.slice(0, 4)
-                  : 'N/A',
-                genre: movie.genre_ids,
-                plot: movie.overview
-              }))
-            )
+            setSearchResults(convertTmdbData(data.results))
           }
         })
         .catch((err) => {
@@ -53,9 +42,9 @@ const Search: React.FC = () => {
   )
 
   return (
-    <div className='w-full px-7 flex flex-col items-center'>
+    <div className="w-full px-7 flex flex-col items-center">
       <input
-        className='w-3/4 px-1 py-1 rounded text-lg font-medium text-center'
+        className="w-3/4 h-[2.5rem] mt-[-1.25rem] mb-4 px-1 py-1 rounded text-lg font-medium text-center shadow-lg"
         onChange={(e) => handleSearch(e)}
         type="text"
         placeholder="Search for a movie"
