@@ -22,10 +22,13 @@ export interface Movie {
   plot: string
 }
 
+type Modes = 'home' | 'details' | 'reviews' | 'search' | 'watchlist'
+
 export interface StateInterface {
-  mode: 'home' | 'details' | 'search' | 'watchlist'
+  mode: Modes
   movies: Movie[] | []
   details: Movie
+  reviews: string | ''
   searchResults: Movie[] | []
   watchlist: Movie[] | []
   isLoading: boolean
@@ -40,6 +43,7 @@ const initialState: StateInterface = {
   mode: 'home',
   movies: [],
   details: blankMovieObj,
+  reviews: '',
   searchResults: [],
   watchlist: localWatchlist ? JSON.parse(localWatchlist) : [],
   isLoading: false,
@@ -52,6 +56,7 @@ export interface AppContextInterface extends StateInterface {
   setMovies: (movies: Movie[]) => void
   getNowPlaying: () => void
   getMovieDetails: (movie: Movie) => void
+  getReviews: (movieId: number) => void
   setSearchMode: () => void
   setSearchResults: (movies: Movie[] | []) => void
   setWatchlistMode: () => void
@@ -71,6 +76,7 @@ const AppContext = React.createContext<AppContextInterface>({
   setMovies: () => null,
   getNowPlaying: () => null,
   getMovieDetails: () => null,
+  getReviews: () => null,
   setSearchMode: () => null,
   setSearchResults: () => null,
   setWatchlistMode: () => null,
@@ -98,6 +104,10 @@ const AppContextProvider = ({ children }: Props) => {
       type: ActionType.SET_DETAILS,
       payload: { selectedMovie: movie }
     })
+  }
+
+  const getReviews = (movieId: number) => {
+    console.log('Get reviews for movieId: ', movieId)
   }
 
   const setSearchMode = () => {
@@ -129,7 +139,9 @@ const AppContextProvider = ({ children }: Props) => {
   }
 
   const removeFromWatchlist = (movie: Movie) => {
-    const updatedWatchlist = [...state.watchlist.filter((mov) => mov.id !== movie.id)]
+    const updatedWatchlist = [
+      ...state.watchlist.filter((mov) => mov.id !== movie.id)
+    ]
     dispatch({
       type: ActionType.REMOVE_FROM_WATCHLIST,
       payload: { updatedWatchlist }
@@ -142,8 +154,9 @@ const AppContextProvider = ({ children }: Props) => {
       value={{
         ...state,
         setMovies,
-        getMovieDetails,
         getNowPlaying,
+        getMovieDetails,
+        getReviews,
         setSearchMode,
         setSearchResults,
         setWatchlistMode,

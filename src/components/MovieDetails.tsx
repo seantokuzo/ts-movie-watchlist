@@ -4,7 +4,7 @@ import WatchlistButton from './WatchlistButton'
 import { translateGenres } from '../data/genre-data'
 
 const MovieDetails: React.FC = () => {
-  const { details, watchlist } = useAppContext()
+  const { details, watchlist, getReviews } = useAppContext()
 
   const genres = details.genre.map((id) => translateGenres(id)).join(', ')
 
@@ -45,6 +45,12 @@ const MovieDetails: React.FC = () => {
         <p>{details.rating}</p>
         <i className="fa-solid fa-star ml-1 text-yellow-400"></i>
       </div>
+      <button
+        className="flex justify-center items-center px-5 py-1 mt-2 border-2 rounded-full bg-white shadow-lg text-black"
+        onClick={() => getReviews(details.id)}
+      >
+        Reviews
+      </button>
       <div className="my-3 w-3/4 h-[1px] border-[1px] border-white/[.25]"></div>
       <div className="px-4">
         <p className="text-lg">{details.plot}</p>
