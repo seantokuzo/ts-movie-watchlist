@@ -29,7 +29,7 @@ const NowPlaying: React.FC = () => {
   return (
     <div className="w-full max-w-4xl flex flex-col justify-center items-center p-5">
       <h2 className="text-4xl">Now Playing</h2>
-      <div className="w-full flex flex-row flex-wrap justify-between items-start">
+      <div className="w-full flex flex-row flex-wrap justify-center items-start">
         {movieEls}
       </div>
     </div>
