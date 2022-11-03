@@ -20,9 +20,6 @@ const MovieCardBasic: React.FC<{ movie: Movie }> = ({ movie }) => {
   )
 
   const watchlistBtn = () => {
-    console.log(watchlist)
-    console.log(movie)
-
     if (watchlist.some((myMovie) => myMovie.id === movie.id)) {
       return <WatchlistButton addMovie={false} movie={movie} details={false} />
     } else {
