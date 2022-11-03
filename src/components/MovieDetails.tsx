@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAppContext } from '../context/appContext'
-import { WatchlistAddButton, WatchlistRemoveButton } from './WatchlistButtons'
+import WatchlistButton from './WatchlistButton'
 import { translateGenres } from '../data/genre-data'
 
 const MovieDetails: React.FC = () => {
@@ -27,9 +27,9 @@ const MovieDetails: React.FC = () => {
 
   const watchlistBtn = () => {
     if (watchlist.some((movie) => movie.id === details.id)) {
-      return <WatchlistRemoveButton movie={details} />
+      return <WatchlistButton addMovie={false} movie={details} details={true} />
     } else {
-      return <WatchlistAddButton movie={details} />
+      return <WatchlistButton addMovie={true} movie={details} details={true} />
     }
   }
 

@@ -1,6 +1,5 @@
 import React from 'react'
 import { useAppContext } from '../context/appContext'
-import { TmdbMovieResponse } from './CurrentMovies'
 import { TMDB_KEY } from '../fake.env'
 import MovieCardBasic from './MovieCardBasic'
 import { convertTmdbData } from '../util/convertTmdbData'

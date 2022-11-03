@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAppContext } from '../context/appContext'
-import CurrentMovies from './CurrentMovies'
+import NowPlaying from './NowPlaying'
 import MovieDetails from './MovieDetails'
 import Search from './Search'
 import Watchlist from './Watchlist'
@@ -9,8 +9,8 @@ const SharedLayout = () => {
   const { mode } = useAppContext()
 
   return (
-    <div className="w-full h-full flex flex-col content-center items-center">
-      {mode === 'home' && <CurrentMovies />}
+    <div className="w-full h-full flex flex-col justify-center items-center bg-blue-400">
+      {mode === 'home' && <NowPlaying />}
       {mode === 'details' && <MovieDetails />}
       {mode === 'search' && <Search />}
       {mode === 'watchlist' && <Watchlist />}

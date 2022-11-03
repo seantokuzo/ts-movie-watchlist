@@ -129,7 +129,7 @@ const AppContextProvider = ({ children }: Props) => {
   }
 
   const removeFromWatchlist = (movie: Movie) => {
-    const updatedWatchlist = [...state.watchlist.filter((mov) => mov !== movie)]
+    const updatedWatchlist = [...state.watchlist.filter((mov) => mov.id !== movie.id)]
     dispatch({
       type: ActionType.REMOVE_FROM_WATCHLIST,
       payload: { updatedWatchlist }
