@@ -1,5 +1,6 @@
 import React from 'react'
-import { Movie, useAppContext } from '../context/appContext'
+import { useAppContext } from '../context/appContext'
+import { Movie } from '../util/convertTmdbData'
 
 const WatchlistButton: React.FC<{
   addMovie: boolean
@@ -32,7 +33,11 @@ const WatchlistButton: React.FC<{
       onClick={() => handleWatchlistBtn(addMovie, movie)}
     >
       {btnText()}
-      <i className={`fa-solid fa-${addMovie ? 'plus' : 'minus'} ${details ? 'ml-3' : ''}`}></i>
+      <i
+        className={`fa-solid fa-${addMovie ? 'plus' : 'minus'} ${
+          details ? 'ml-3' : ''
+        }`}
+      ></i>
     </button>
   )
 }
