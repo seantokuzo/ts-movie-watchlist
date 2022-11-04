@@ -1,22 +1,18 @@
 import React from 'react'
 import Header from './components/Header'
 import SharedLayout from './components/SharedLayout'
+import { useAppContext } from './context/appContext'
 
 function App() {
-  // useEffect(() => {
-  //   if (
-  //     localStorage.theme === 'dark' ||
-  //     (!('theme' in localStorage) &&
-  //       window.matchMedia('(prefers-color-scheme: dark)').matches)
-  //   ) {
-  //     document.documentElement.classList.add('dark')
-  //   } else {
-  //     document.documentElement.classList.remove('dark')
-  //   }
-  // }, [])
+  const { darkMode } = useAppContext()
+
+  const themeBg = darkMode ? 'bg-zinc-700' : 'bg-blue-400'
+  const textColor = darkMode ? 'text-white' : 'text-black'
 
   return (
-    <div className="font-serif w-full h-full min-h-screen bg-blue-400">
+    <div
+      className={`font-serif w-full h-full min-h-screen ${themeBg} ${textColor}`}
+    >
       <Header />
       <SharedLayout />
     </div>

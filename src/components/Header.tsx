@@ -1,35 +1,44 @@
 import React from 'react'
 import { useAppContext } from '../context/appContext'
+import ThemeToggler from './ThemeToggler'
 
 const Header: React.FC = () => {
-  const { mode, getNowPlaying, setSearchMode, setWatchlistMode } =
+  const { darkMode, mode, getNowPlaying, setSearchMode, setWatchlistMode } =
     useAppContext()
 
-  const headerBtnClasses =
-    'mx-1 px-4 py-1.5 border-blue-300 border-2 rounded-l-full rounded-r-full'
+  const headerBtnColor = darkMode ? 'border-zinc-300' : 'border-blue-300'
+
+  const headerBtnClasses = `mx-1 px-4 py-1.5 ${headerBtnColor} border-2 rounded-l-full rounded-r-full`
+
+  const selectedClass = (modeBtn: string) => {
+    if (mode === modeBtn) {
+      if (darkMode) return 'bg-zinc-300 text-black'
+      return 'bg-blue-300'
+    }
+    return 'bg-none'
+  }
+
+  const bgColor = darkMode ? 'bg-zinc-800' : 'bg-blue-500'
 
   return (
     <header
-      className={`w-full bg-blue-500 pt-4 ${
+      className={`w-full ${bgColor} flex flex-col justify-center items-center pt-4 px-3 ${
         mode === 'search' ? 'pb-6' : 'pb-4'
-      } px-3`}
+      }`}
     >
+      <ThemeToggler />
       <h1 className="text-6xl font-bold text-center text-gray-100">
         Movie Mania
       </h1>
       <div className="w-full py-2 px-3 flex flex-row flex-wrap justify-center items-start">
         <button
-          className={`${headerBtnClasses} ${
-            mode === 'home' ? 'bg-blue-300' : 'bg-none'
-          }`}
+          className={`${headerBtnClasses} ${selectedClass('home')}`}
           onClick={getNowPlaying}
         >
           <p className="text-lg">Now Playing</p>
         </button>
         <button
-          className={`${headerBtnClasses} ${
-            mode === 'search' ? 'bg-blue-300' : 'bg-none'
-          }`}
+          className={`${headerBtnClasses} ${selectedClass('search')}`}
           onClick={setSearchMode}
         >
           <p className="text-lg flex flex-row content-center items-center">
@@ -38,9 +47,7 @@ const Header: React.FC = () => {
           </p>
         </button>
         <button
-          className={`${headerBtnClasses} ${
-            mode === 'watchlist' ? 'bg-blue-300' : 'bg-none'
-          }`}
+          className={`${headerBtnClasses} ${selectedClass('watchlist')}`}
           onClick={setWatchlistMode}
         >
           <p className="text-lg flex flex-row content-center items-center">

@@ -8,7 +8,7 @@ import { convertTmdbData } from '../util/convertTmdbData'
 const fetchString = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_KEY}&now-playing&popularity.gte=3000?language=en-US`
 
 const NowPlaying: React.FC = () => {
-  const { movies, setMovies } = useAppContext()
+  const { darkMode, movies, setMovies } = useAppContext()
 
   useEffect(() => {
     fetch(fetchString)
@@ -27,7 +27,11 @@ const NowPlaying: React.FC = () => {
   )
 
   return (
-    <div className="w-full max-w-4xl flex flex-col justify-center items-center p-5">
+    <div
+      className={`w-full max-w-4xl flex flex-col justify-center items-center p-5 text-${
+        darkMode ? 'white' : 'black'
+      }`}
+    >
       <h2 className="text-4xl">Now Playing</h2>
       <div className="w-full flex flex-row flex-wrap justify-center items-start">
         {movieEls}

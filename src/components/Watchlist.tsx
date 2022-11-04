@@ -14,7 +14,7 @@ const Watchlist: React.FC = () => {
   )
 
   return (
-    <div className="w-full max-w-4xl flex flex-col content-center items-center p-5 bg-blue-400">
+    <div className="w-full max-w-4xl flex flex-col content-center items-center p-5">
       <h2 className="text-4xl">My Watchlist</h2>
       <div className="w-full flex flex-row flex-wrap justify-evenly items-start">
         {movieEls}

@@ -17,8 +17,15 @@ type Action =
       type: ActionType.REMOVE_FROM_WATCHLIST
       payload: { updatedWatchlist: Movie[] | [] }
     }
+  | { type: ActionType.CHANGE_THEME }
 
 const reducer = (state: StateInterface, action: Action): StateInterface => {
+  if (action.type === ActionType.CHANGE_THEME) {
+    return {
+      ...state,
+      darkMode: !state.darkMode
+    }
+  }
   if (action.type === ActionType.SET_MOVIES_SUCCESS) {
     return {
       ...state,

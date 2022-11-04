@@ -10,7 +10,7 @@ const SharedLayout = () => {
   const { mode } = useAppContext()
 
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center bg-blue-400">
+    <div className="w-full h-full flex flex-col justify-center items-center">
       {mode === 'home' && <NowPlaying />}
       {mode === 'details' && <MovieDetails />}
       {mode === 'reviews' && <Reviews />}

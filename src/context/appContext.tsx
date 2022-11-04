@@ -1,4 +1,5 @@
 import React, { useReducer, useContext } from 'react'
+import { TMDB_KEY } from '../fake.env'
 import { ActionType } from './actions'
 import reducer from './reducer'
 
@@ -25,6 +26,7 @@ export interface Movie {
 type Modes = 'home' | 'details' | 'reviews' | 'search' | 'watchlist'
 
 export interface StateInterface {
+  darkMode: boolean
   mode: Modes
   movies: Movie[] | []
   details: Movie
@@ -40,6 +42,7 @@ export interface StateInterface {
 const localWatchlist = localStorage.getItem('watchlist')
 
 const initialState: StateInterface = {
+  darkMode: true,
   mode: 'home',
   movies: [],
   details: blankMovieObj,
@@ -53,6 +56,7 @@ const initialState: StateInterface = {
 }
 
 export interface AppContextInterface extends StateInterface {
+  changeTheme: () => void
   setMovies: (movies: Movie[]) => void
   getNowPlaying: () => void
   getMovieDetails: (movie: Movie) => void
@@ -73,6 +77,7 @@ export interface AppContextInterface extends StateInterface {
 
 const AppContext = React.createContext<AppContextInterface>({
   ...initialState,
+  changeTheme: () => null,
   setMovies: () => null,
   getNowPlaying: () => null,
   getMovieDetails: () => null,
@@ -91,6 +96,10 @@ type Props = {
 const AppContextProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
+  const changeTheme = () => {
+    dispatch({ type: ActionType.CHANGE_THEME })
+  }
+
   const setMovies = (movies: Movie[]) => {
     dispatch({ type: ActionType.SET_MOVIES_SUCCESS, payload: { movies } })
   }
@@ -106,8 +115,13 @@ const AppContextProvider = ({ children }: Props) => {
     })
   }
 
-  const getReviews = (movieId: number) => {
+  const getReviews = async (movieId: number) => {
     console.log('Get reviews for movieId: ', movieId)
+    const res = await fetch(
+      `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${TMDB_KEY}&language=en-US&page=1`
+    )
+    const data = await res.json()
+    console.log(data)
   }
 
   const setSearchMode = () => {
@@ -153,6 +167,7 @@ const AppContextProvider = ({ children }: Props) => {
     <AppContext.Provider
       value={{
         ...state,
+        changeTheme,
         setMovies,
         getNowPlaying,
         getMovieDetails,
