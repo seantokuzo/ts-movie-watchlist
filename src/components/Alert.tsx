@@ -8,9 +8,9 @@ const Alert: React.FC = () => {
 
   return (
     <div
-      className={`${alertBg} absolute px-5 py-4 flex justify-center items-center text-center`}
+      className={`${alertBg} absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-5 py-4 flex justify-center items-center text-center rounded-sm shadow-xl`}
     >
-      {alertText}
+      <h5 className="text-2xl">{alertText}</h5>
     </div>
   )
 }
