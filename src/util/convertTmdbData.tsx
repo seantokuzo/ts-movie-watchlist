@@ -15,6 +15,27 @@ interface TmdbMovieData {
   vote_count: number
 }
 
+export interface TmdbReview {
+  author: string
+  author_details: {
+    name?: string
+    username?: string
+    avatar_path?: string
+    rating?: number
+  }
+  content: string
+  created_at: string
+  id: string
+  updated_at: string
+  url: string
+}
+
+export interface Review {
+  author: string
+  review: string
+  date: string
+}
+
 export interface Movie {
   id: number
   poster: string | ''
