@@ -35,8 +35,8 @@ export interface StateInterface {
   watchlist: Movie[] | []
   isLoading: boolean
   showAlert: boolean
-  AlertType: 'success' | 'danger' | ''
-  AlertText: string
+  alertType: 'success' | 'danger' | ''
+  alertText: string
 }
 
 const localWatchlist = localStorage.getItem('watchlist')
@@ -51,8 +51,8 @@ const initialState: StateInterface = {
   watchlist: localWatchlist ? JSON.parse(localWatchlist) : [],
   isLoading: false,
   showAlert: false,
-  AlertType: '',
-  AlertText: ''
+  alertType: '',
+  alertText: ''
 }
 
 export interface AppContextInterface extends StateInterface {
