@@ -1,10 +1,11 @@
 import React from 'react'
+import Alert from './components/Alert'
 import Header from './components/Header'
 import SharedLayout from './components/SharedLayout'
 import { useAppContext } from './context/appContext'
 
 function App() {
-  const { darkMode } = useAppContext()
+  const { darkMode, showAlert } = useAppContext()
 
   const themeBg = darkMode ? 'bg-zinc-700' : 'bg-blue-400'
   const textColor = darkMode ? 'text-white' : 'text-black'
@@ -15,6 +16,7 @@ function App() {
     >
       <Header />
       <SharedLayout />
+      {showAlert && <Alert />}
     </div>
   )
 }
