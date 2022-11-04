@@ -1,5 +1,11 @@
 import React, { useReducer, useContext } from 'react'
 import { TMDB_KEY } from '../fake.env'
+import {
+  convertTmdbData,
+  Movie,
+  Review,
+  TmdbReview
+} from '../util/convertTmdbData'
 import { ActionType } from './actions'
 import reducer from './reducer'
 
@@ -13,24 +19,15 @@ export const blankMovieObj = {
   plot: 'Plot unavailable'
 }
 
-export interface Movie {
-  id: number
-  poster: string | ''
-  title: string
-  rating: number
-  date: string
-  genre: number[]
-  plot: string
-}
-
-type Modes = 'home' | 'details' | 'reviews' | 'search' | 'watchlist'
+type Modes = 'home' | 'details' | 'search' | 'watchlist'
 
 export interface StateInterface {
   darkMode: boolean
   mode: Modes
   movies: Movie[] | []
   details: Movie
-  reviews: string | ''
+  showReviews: boolean
+  reviews: Review[] | []
   searchResults: Movie[] | []
   watchlist: Movie[] | []
   isLoading: boolean
@@ -46,7 +43,8 @@ const initialState: StateInterface = {
   mode: 'home',
   movies: [],
   details: blankMovieObj,
-  reviews: '',
+  reviews: [],
+  showReviews: false,
   searchResults: [],
   watchlist: localWatchlist ? JSON.parse(localWatchlist) : [],
   isLoading: false,
@@ -56,11 +54,14 @@ const initialState: StateInterface = {
 }
 
 export interface AppContextInterface extends StateInterface {
+  clearAlert: () => void
   changeTheme: () => void
-  setMovies: (movies: Movie[]) => void
   getNowPlaying: () => void
+  setMovies: (movies: Movie[]) => void
+  changeModeNowPlaying: () => void
   getMovieDetails: (movie: Movie) => void
   getReviews: (movieId: number) => void
+  hideReviews: () => void
   setSearchMode: () => void
   setSearchResults: (movies: Movie[] | []) => void
   setWatchlistMode: () => void
@@ -77,11 +78,14 @@ export interface AppContextInterface extends StateInterface {
 
 const AppContext = React.createContext<AppContextInterface>({
   ...initialState,
+  clearAlert: () => null,
   changeTheme: () => null,
-  setMovies: () => null,
   getNowPlaying: () => null,
+  setMovies: () => null,
+  changeModeNowPlaying: () => null,
   getMovieDetails: () => null,
   getReviews: () => null,
+  hideReviews: () => null,
   setSearchMode: () => null,
   setSearchResults: () => null,
   setWatchlistMode: () => null,
@@ -96,16 +100,51 @@ type Props = {
 const AppContextProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
+  const clearAlert = (time: number = 3000) => {
+    setTimeout(() => {
+      dispatch({ type: ActionType.CLEAR_ALERT })
+    }, time)
+  }
+
   const changeTheme = () => {
     dispatch({ type: ActionType.CHANGE_THEME })
+  }
+
+  const getNowPlaying = async () => {
+    dispatch({ type: ActionType.GET_NOW_PLAYING_BEGIN })
+    try {
+      const res = await fetch(
+        `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_KEY}&now-playing&popularity.gte=3000?language=en-US`
+      )
+      const data = await res.json()
+      if (!data.results) {
+        dispatch({
+          type: ActionType.GET_NOW_PLAYING_ERROR,
+          payload: { msg: 'Poopsicle! \nSomething went wrong' }
+        })
+        clearAlert()
+        return
+      }
+      dispatch({
+        type: ActionType.GET_NOW_PLAYING_SUCCESS,
+        payload: { movies: convertTmdbData(data.results) }
+      })
+    } catch (err) {
+      console.log(err)
+      dispatch({
+        type: ActionType.GET_NOW_PLAYING_ERROR,
+        payload: { msg: 'Poopsicle! \nSomething went wrong' }
+      })
+    }
+    clearAlert()
   }
 
   const setMovies = (movies: Movie[]) => {
     dispatch({ type: ActionType.SET_MOVIES_SUCCESS, payload: { movies } })
   }
 
-  const getNowPlaying = () => {
-    dispatch({ type: ActionType.GET_NOW_PLAYING })
+  const changeModeNowPlaying = () => {
+    dispatch({ type: ActionType.MODE_NOW_PLAYING })
   }
 
   const getMovieDetails = (movie: Movie) => {
@@ -117,11 +156,35 @@ const AppContextProvider = ({ children }: Props) => {
 
   const getReviews = async (movieId: number) => {
     console.log('Get reviews for movieId: ', movieId)
-    const res = await fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${TMDB_KEY}&language=en-US&page=1`
-    )
-    const data = await res.json()
-    console.log(data)
+    // dispatch({ type: ActionType.GET_REVIEWS_BEGIN })
+    try {
+      const res = await fetch(
+        `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${TMDB_KEY}&language=en-US&page=1`
+      )
+      const data = await res.json()
+      console.log(data)
+      if (data.results.length > 0) {
+        const formattedReviews = data.results.map((review: TmdbReview) => ({
+          author: review.author_details.username || review.author,
+          review: review.content,
+          date: new Date(review.created_at).toLocaleDateString()
+        }))
+        dispatch({
+          type: ActionType.GET_REVIEWS_SUCCESS,
+          payload: { reviews: formattedReviews }
+        })
+      }
+    } catch (err) {
+      console.log(err)
+      dispatch({
+        type: ActionType.GET_REVIEWS_ERROR,
+        payload: { msg: 'Uh oh!\nSomething went wrong' }
+      })
+    }
+  }
+
+  const hideReviews = () => {
+    dispatch({ type: ActionType.HIDE_REVIEWS })
   }
 
   const setSearchMode = () => {
@@ -167,11 +230,14 @@ const AppContextProvider = ({ children }: Props) => {
     <AppContext.Provider
       value={{
         ...state,
+        clearAlert,
         changeTheme,
-        setMovies,
         getNowPlaying,
+        setMovies,
+        changeModeNowPlaying,
         getMovieDetails,
         getReviews,
+        hideReviews,
         setSearchMode,
         setSearchResults,
         setWatchlistMode,
