@@ -13,7 +13,6 @@ const SharedLayout = () => {
     <div className="w-full h-full flex flex-col justify-center items-center">
       {mode === 'home' && <NowPlaying />}
       {mode === 'details' && <MovieDetails />}
-      {mode === 'reviews' && <Reviews />}
       {mode === 'search' && <Search />}
       {mode === 'watchlist' && <Watchlist />}
     </div>
