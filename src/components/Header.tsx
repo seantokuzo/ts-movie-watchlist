@@ -3,8 +3,13 @@ import { useAppContext } from '../context/appContext'
 import ThemeToggler from './ThemeToggler'
 
 const Header: React.FC = () => {
-  const { darkMode, mode, getNowPlaying, setSearchMode, setWatchlistMode } =
-    useAppContext()
+  const {
+    darkMode,
+    mode,
+    changeModeNowPlaying,
+    setSearchMode,
+    setWatchlistMode
+  } = useAppContext()
 
   const headerBtnColor = darkMode ? 'border-zinc-300' : 'border-blue-300'
 
@@ -23,7 +28,7 @@ const Header: React.FC = () => {
   return (
     <header
       className={`w-full ${bgColor} flex flex-col justify-center items-center pt-4 px-3 ${
-        mode === 'search' ? 'pb-6' : 'pb-4'
+        mode === 'search' ? 'pb-8' : 'pb-4'
       }`}
     >
       <ThemeToggler />
@@ -33,7 +38,7 @@ const Header: React.FC = () => {
       <div className="w-full py-2 px-3 flex flex-row flex-wrap justify-center items-start">
         <button
           className={`${headerBtnClasses} ${selectedClass('home')}`}
-          onClick={getNowPlaying}
+          onClick={changeModeNowPlaying}
         >
           <p className="text-lg">Now Playing</p>
         </button>
