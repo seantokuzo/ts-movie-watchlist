@@ -1,5 +1,6 @@
 import React from 'react'
-import { Movie, useAppContext } from '../context/appContext'
+import { useAppContext } from '../context/appContext'
+import { Movie } from '../util/convertTmdbData'
 import WatchlistButton from './WatchlistButton'
 
 const MovieCardBasic: React.FC<{ movie: Movie }> = ({ movie }) => {
@@ -11,7 +12,7 @@ const MovieCardBasic: React.FC<{ movie: Movie }> = ({ movie }) => {
     // <div className="w-full h-[14.25rem] flex flex-col justify-center items-center border-2 bg-black/[.5]">
     <div className="w-full min-h-[12rem] flex flex-col justify-center items-center border-2 bg-black/[.5]">
       <p
-        className="text-3xl text-center text-blue-400"
+        className="text-3xl text-center text-white-400"
         style={{ textShadow: '5px 5px 5px rgba(0, 0, 0, 0.7)' }}
       >
         Poster Unavailable
