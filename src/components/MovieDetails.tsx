@@ -5,8 +5,14 @@ import { translateGenres } from '../data/genre-data'
 import Reviews from './Reviews'
 
 const MovieDetails: React.FC = () => {
-  const { details, watchlist, showReviews, getReviews, hideReviews } =
-    useAppContext()
+  const {
+    details,
+    watchlist,
+    showReviews,
+    getReviews,
+    hideReviews,
+    changeModeNowPlaying
+  } = useAppContext()
 
   const genres = details.genre.map((id) => translateGenres(id)).join(', ')
 
@@ -15,9 +21,13 @@ const MovieDetails: React.FC = () => {
       src={details.poster}
       alt="Movie Poster"
       className="w-2/3 max-w-xs mt-2 mb-4"
+      onClick={changeModeNowPlaying}
     ></img>
   ) : (
-    <div className="w-full h-[14.25rem] flex flex-col justify-center items-center border-2 bg-black/[.5]">
+    <div
+      className="w-full h-[14.25rem] flex flex-col justify-center items-center border-2 bg-black/[.5]"
+      onClick={changeModeNowPlaying}
+    >
       <p
         className="text-3xl text-center text-blue-400"
         style={{ textShadow: '5px 5px 5px rgba(0, 0, 0, 0.7)' }}
