@@ -30,6 +30,20 @@ module.exports = {
       },
       backgroundImage: {
         'bg-camera': "url('/public/img/header-bg-img.jpg"
+      },
+      keyframes: {
+        spin: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(-4turn)' }
+        },
+        revspin: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(4turn)' }
+        }
+      },
+      animation: {
+        loadspin: 'spin 3s linear infinite',
+        revspin: 'revspin 3s linear infinite'
       }
     }
   },
