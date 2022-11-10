@@ -12,7 +12,7 @@ function App() {
 
   return (
     <div
-      className={`font-serif w-full h-full min-h-screen ${themeBg} ${textColor}`}
+      className={`font-serif w-full h-full min-h-screen flex flex-col items-center ${themeBg} ${textColor}`}
     >
       <Header />
       <SharedLayout />
