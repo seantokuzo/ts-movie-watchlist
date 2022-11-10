@@ -27,12 +27,12 @@ const Header: React.FC = () => {
 
   return (
     <header
-      className={`w-full ${bgColor} flex flex-col justify-center items-center pt-4 px-3 ${
+      className={`w-full ${bgColor} flex flex-col justify-center items-center pt-3 px-3 ${
         mode === 'search' ? 'pb-8' : 'pb-4'
       }`}
     >
       <ThemeToggler />
-      <h1 className="text-6xl font-bold text-center text-gray-100">
+      <h1 className="mt-2 text-6xl font-bold text-center text-gray-100">
         Movie Mania
       </h1>
       <div className="w-full py-2 px-3 flex flex-row flex-wrap justify-center items-start">
