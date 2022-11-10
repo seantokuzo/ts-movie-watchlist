@@ -28,7 +28,7 @@ export interface StateInterface {
   details: Movie
   showReviews: boolean
   reviews: Review[] | []
-  searchResults: Movie[] | []
+  searchResults: Movie[] | [] | 'none'
   watchlist: Movie[] | []
   isLoading: boolean
   showAlert: boolean
@@ -57,13 +57,12 @@ export interface AppContextInterface extends StateInterface {
   clearAlert: () => void
   changeTheme: () => void
   getNowPlaying: () => void
-  setMovies: (movies: Movie[]) => void
   changeModeNowPlaying: () => void
   getMovieDetails: (movie: Movie) => void
   getReviews: (movieId: number) => void
   hideReviews: () => void
   setSearchMode: () => void
-  setSearchResults: (movies: Movie[] | []) => void
+  setSearchResults: (movies: Movie[] | [] | 'none') => void
   setWatchlistMode: () => void
   addToWatchlist: (movie: Movie) => void
   removeFromWatchlist: (movie: Movie) => void
@@ -81,7 +80,6 @@ const AppContext = React.createContext<AppContextInterface>({
   clearAlert: () => null,
   changeTheme: () => null,
   getNowPlaying: () => null,
-  setMovies: () => null,
   changeModeNowPlaying: () => null,
   getMovieDetails: () => null,
   getReviews: () => null,
@@ -139,10 +137,6 @@ const AppContextProvider = ({ children }: Props) => {
     clearAlert()
   }
 
-  const setMovies = (movies: Movie[]) => {
-    dispatch({ type: ActionType.SET_MOVIES_SUCCESS, payload: { movies } })
-  }
-
   const changeModeNowPlaying = () => {
     dispatch({ type: ActionType.MODE_NOW_PLAYING })
   }
@@ -191,7 +185,7 @@ const AppContextProvider = ({ children }: Props) => {
     dispatch({ type: ActionType.SET_SEARCH_MODE })
   }
 
-  const setSearchResults = (movies: Movie[] | []) => {
+  const setSearchResults = (movies: Movie[] | [] | 'none') => {
     dispatch({ type: ActionType.SET_SEARCH_RESULTS, payload: { movies } })
   }
 
@@ -233,7 +227,6 @@ const AppContextProvider = ({ children }: Props) => {
         clearAlert,
         changeTheme,
         getNowPlaying,
-        setMovies,
         changeModeNowPlaying,
         getMovieDetails,
         getReviews,

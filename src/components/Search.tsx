@@ -20,7 +20,7 @@ const Search: React.FC = () => {
           if (data.errors) {
             setSearchResults([])
           } else if (data.total_results === 0) {
-            setSearchResults([])
+            setSearchResults('none')
           } else if (data.results.length > 0) {
             setSearchResults(convertTmdbData(data.results))
           }
@@ -32,19 +32,32 @@ const Search: React.FC = () => {
     }
   }
 
-  const movieEls =
-    searchResults.length > 0 ? (
-      <>
-        {searchResults.map((movie) => (
-          <MovieCardBasic movie={movie} key={movie.id} />
-        ))}
-      </>
-    ) : (
+  const movieEls = () => {
+    if (searchResults === 'none') {
+      return (
+        <div className="w-full mt-4 flex flex-col justify-center items-center">
+          <h3 className="text-4xl font-semibold">No Results</h3>
+          <i className="fa-solid fa-circle-question mt-2 text-8xl text-black/[0.5]"></i>
+          <h3 className="mt-2 text-2xl font-semibold">Try again</h3>
+        </div>
+      )
+    }
+    if (searchResults.length > 0) {
+      return (
+        <>
+          {searchResults.map((movie) => (
+            <MovieCardBasic movie={movie} key={movie.id} />
+          ))}
+        </>
+      )
+    }
+    return (
       <div className="w-full mt-4 flex flex-col justify-center items-center">
         <h3 className="text-4xl font-semibold">Find some Movies</h3>
         <i className="fa-solid fa-film mt-2 text-8xl text-black/[0.5]"></i>
       </div>
     )
+  }
 
   return (
     <div className="w-full px-7 flex flex-col items-center">
@@ -58,7 +71,7 @@ const Search: React.FC = () => {
         minLength={1}
       ></input>
       <div className="w-full flex flex-row flex-wrap justify-center items-start">
-        {movieEls}
+        {movieEls()}
       </div>
     </div>
   )

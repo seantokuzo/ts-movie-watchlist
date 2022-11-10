@@ -19,7 +19,10 @@ type Action =
   | { type: ActionType.GET_REVIEWS_ERROR; payload: { msg: string } }
   | { type: ActionType.HIDE_REVIEWS }
   | { type: ActionType.SET_SEARCH_MODE }
-  | { type: ActionType.SET_SEARCH_RESULTS; payload: { movies: Movie[] | [] } }
+  | {
+      type: ActionType.SET_SEARCH_RESULTS
+      payload: { movies: Movie[] | [] | 'none' }
+    }
   | { type: ActionType.SET_WATCHLIST_MODE }
   | {
       type: ActionType.ADD_TO_WATCHLIST
@@ -81,7 +84,8 @@ const reducer = (state: StateInterface, action: Action): StateInterface => {
       return {
         ...state,
         mode: 'home',
-        details: { ...blankMovieObj }
+        details: { ...blankMovieObj },
+        searchResults: []
       }
     case ActionType.SET_DETAILS:
       return {
@@ -118,7 +122,8 @@ const reducer = (state: StateInterface, action: Action): StateInterface => {
     case ActionType.SET_SEARCH_MODE:
       return {
         ...state,
-        mode: 'search'
+        mode: 'search',
+        searchResults: []
       }
     case ActionType.SET_SEARCH_RESULTS:
       return {
@@ -128,7 +133,8 @@ const reducer = (state: StateInterface, action: Action): StateInterface => {
     case ActionType.SET_WATCHLIST_MODE:
       return {
         ...state,
-        mode: 'watchlist'
+        mode: 'watchlist',
+        searchResults: []
       }
     case ActionType.ADD_TO_WATCHLIST:
       return {
