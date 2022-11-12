@@ -1,4 +1,4 @@
-interface TmdbMovieData {
+export interface TmdbMovieData {
   adult: boolean
   backdrop_path: string
   genre_ids: number[]

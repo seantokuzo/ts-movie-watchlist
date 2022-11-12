@@ -4,6 +4,7 @@ import {
   convertTmdbData,
   Movie,
   Review,
+  TmdbMovieData,
   TmdbReview
 } from '../util/convertTmdbData'
 import { ActionType } from './actions'
@@ -125,7 +126,14 @@ const AppContextProvider = ({ children }: Props) => {
       }
       dispatch({
         type: ActionType.GET_NOW_PLAYING_SUCCESS,
-        payload: { movies: convertTmdbData(data.results) }
+        payload: {
+          movies: convertTmdbData(
+            data.results.sort(
+              (a: TmdbMovieData, b: TmdbMovieData) =>
+                b.popularity - a.popularity
+            )
+          )
+        }
       })
     } catch (err) {
       console.log(err)
