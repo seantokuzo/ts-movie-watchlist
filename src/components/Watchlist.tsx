@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAppContext } from '../context/appContext'
-import MovieCardBasic from './MovieCardBasic'
+import MovieCardDetails from './MovieCardDetails'
 
 const Watchlist: React.FC = () => {
   const { watchlist } = useAppContext()
@@ -8,7 +8,7 @@ const Watchlist: React.FC = () => {
   const movieEls = (
     <>
       {watchlist.map((movie) => (
-        <MovieCardBasic movie={movie} key={movie.id} />
+        <MovieCardDetails movie={movie} key={movie.id} />
       ))}
     </>
   )

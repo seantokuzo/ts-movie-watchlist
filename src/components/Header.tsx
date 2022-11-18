@@ -13,7 +13,7 @@ const Header: React.FC = () => {
 
   const headerBtnColor = darkMode ? 'border-zinc-300' : 'border-blue-300'
 
-  const headerBtnClasses = `mx-1 px-4 py-1.5 ${headerBtnColor} border-2 rounded-l-full rounded-r-full`
+  const headerBtnClasses = `mx-1 px-4 py-1.5 ${headerBtnColor} border-2 rounded-l-full rounded-r-full hover:scale-105`
 
   const selectedClass = (modeBtn: string) => {
     if (mode === modeBtn) {
@@ -35,18 +35,18 @@ const Header: React.FC = () => {
       <h1 className="mt-2 text-6xl font-bold text-center text-gray-100">
         Movie Mania
       </h1>
-      <div className="w-full py-2 px-3 flex flex-row flex-wrap justify-center items-start">
+      <div className="w-full max-w-2xl py-2 px-3 flex flex-row justify-evenly items-start">
         <button
           className={`${headerBtnClasses} ${selectedClass('home')}`}
           onClick={changeModeNowPlaying}
         >
-          <p className="text-lg">Now Playing</p>
+          <p className="text-lg md:text-lg lg:text-xl">Now Playing</p>
         </button>
         <button
           className={`${headerBtnClasses} ${selectedClass('search')}`}
           onClick={setSearchMode}
         >
-          <p className="text-lg flex flex-row content-center items-center">
+          <p className="text-lg md:text-lg lg:text-xl flex flex-row content-center items-center">
             Search
             <i className="fa-solid fa-magnifying-glass ml-2 text-sm"></i>
           </p>
@@ -55,7 +55,7 @@ const Header: React.FC = () => {
           className={`${headerBtnClasses} ${selectedClass('watchlist')}`}
           onClick={setWatchlistMode}
         >
-          <p className="text-lg flex flex-row content-center items-center">
+          <p className="text-lg md:text-lg lg:text-xl flex flex-row content-center items-center">
             My Watchlist
           </p>
         </button>

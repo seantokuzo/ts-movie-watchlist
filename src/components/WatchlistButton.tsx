@@ -25,11 +25,11 @@ const WatchlistButton: React.FC<{
     return ''
   }
 
-  const btnClasses = details ? 'px-4 py-3 mt-4' : 'p-2 absolute top-4 right-3'
+  const btnClasses = details ? 'px-4 py-3 mt-4' : 'p-2 absolute top-4 right-4'
 
   return (
     <button
-      className={`flex justify-center items-center border-2 rounded-full bg-white shadow-lg text-black ${btnClasses}`}
+      className={`flex justify-center items-center border-2 rounded-full bg-white shadow-lg text-black ${btnClasses} hover:scale-105`}
       onClick={() => handleWatchlistBtn(addMovie, movie)}
     >
       {btnText()}

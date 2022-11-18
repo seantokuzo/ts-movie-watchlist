@@ -85,7 +85,7 @@ const reducer = (state: StateInterface, action: Action): StateInterface => {
         ...state,
         mode: 'home',
         details: { ...blankMovieObj },
-        searchResults: []
+        // searchResults: []
       }
     case ActionType.SET_DETAILS:
       return {
@@ -123,7 +123,7 @@ const reducer = (state: StateInterface, action: Action): StateInterface => {
       return {
         ...state,
         mode: 'search',
-        searchResults: []
+        // searchResults: []
       }
     case ActionType.SET_SEARCH_RESULTS:
       return {
@@ -134,7 +134,7 @@ const reducer = (state: StateInterface, action: Action): StateInterface => {
       return {
         ...state,
         mode: 'watchlist',
-        searchResults: []
+        // searchResults: []
       }
     case ActionType.ADD_TO_WATCHLIST:
       return {

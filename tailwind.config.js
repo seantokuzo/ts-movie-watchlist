@@ -17,7 +17,7 @@ module.exports = {
     //   'red-lt': '#DD5353'
     // },
     fontFamily: {
-      reg: ['Inter', 'sans-serif'],
+      reg: ['Montserrat', 'sans-serif'],
       serif: ['Teko', 'serif']
     },
     extend: {

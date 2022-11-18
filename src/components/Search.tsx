@@ -1,8 +1,8 @@
 import React from 'react'
 import { useAppContext } from '../context/appContext'
 import { TMDB_KEY } from '../fake.env'
-import MovieCardBasic from './MovieCardBasic'
 import { convertTmdbData } from '../util/convertTmdbData'
+import MovieCardDetails from './MovieCardDetails'
 
 const Search: React.FC = () => {
   const { searchResults, setSearchResults } = useAppContext()
@@ -46,7 +46,7 @@ const Search: React.FC = () => {
       return (
         <>
           {searchResults.map((movie) => (
-            <MovieCardBasic movie={movie} key={movie.id} />
+            <MovieCardDetails movie={movie} key={movie.id} />
           ))}
         </>
       )
@@ -60,7 +60,7 @@ const Search: React.FC = () => {
   }
 
   return (
-    <div className="w-full px-7 flex flex-col items-center">
+    <div className="w-full px-5 md:px-7 flex flex-col items-center">
       <input
         className="w-3/4 h-[2.5rem] mt-[-1.25rem] mb-4 px-1 py-1 rounded text-black text-lg font-medium text-center shadow-lg"
         onChange={(e) => handleSearch(e)}

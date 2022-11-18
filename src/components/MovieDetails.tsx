@@ -24,17 +24,15 @@ const MovieDetails: React.FC = () => {
       onClick={changeModeNowPlaying}
     ></img>
   ) : (
-    <div
-      className="w-full h-[14.25rem] flex flex-col justify-center items-center border-2 bg-black/[.5]"
+    <img
+      src="./img/no_img.png"
+      className="w-2/3 max-w-xs mt-2 mb-4"
+      style={{ textShadow: '5px 5px 5px rgba(0, 0, 0, 0.7)' }}
       onClick={changeModeNowPlaying}
+      alt="No Poster"
     >
-      <p
-        className="text-3xl text-center text-blue-400"
-        style={{ textShadow: '5px 5px 5px rgba(0, 0, 0, 0.7)' }}
-      >
-        Poster Unavailable
-      </p>
-    </div>
+      {/* <p className="text-3xl text-center">Poster Unavailable</p> */}
+    </img>
   )
 
   const watchlistBtn = () => {
@@ -59,7 +57,7 @@ const MovieDetails: React.FC = () => {
       </div>
       {showReviews && <Reviews />}
       <button
-        className="flex justify-center items-center px-5 py-1 mt-2 border-2 rounded-full bg-white shadow-lg text-black"
+        className="flex justify-center items-center px-5 py-1 mt-2 border-2 rounded-full bg-white shadow-lg text-black hover:scale-105"
         onClick={() => (showReviews ? hideReviews() : getReviews(details.id))}
       >
         {showReviews ? 'Hide Reviews' : 'Reviews'}

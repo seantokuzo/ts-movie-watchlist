@@ -124,17 +124,19 @@ const AppContextProvider = ({ children }: Props) => {
         clearAlert()
         return
       }
-      dispatch({
-        type: ActionType.GET_NOW_PLAYING_SUCCESS,
-        payload: {
-          movies: convertTmdbData(
-            data.results.sort(
-              (a: TmdbMovieData, b: TmdbMovieData) =>
-                b.popularity - a.popularity
+      setTimeout(() => {
+        dispatch({
+          type: ActionType.GET_NOW_PLAYING_SUCCESS,
+          payload: {
+            movies: convertTmdbData(
+              data.results.sort(
+                (a: TmdbMovieData, b: TmdbMovieData) =>
+                  b.popularity - a.popularity
+              )
             )
-          )
-        }
-      })
+          }
+        })
+      }, 1500)
     } catch (err) {
       console.log(err)
       dispatch({
