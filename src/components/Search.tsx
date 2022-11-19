@@ -5,9 +5,11 @@ import { convertTmdbData } from '../util/convertTmdbData'
 import MovieCardDetails from './MovieCardDetails'
 
 const Search: React.FC = () => {
-  const { searchResults, setSearchResults, displayAlert } = useAppContext()
+  const { searchResults, setSearchResults, displayAlert, clearAlert } =
+    useAppContext()
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    clearAlert(100)
     if (!e.target.value) {
       setSearchResults([])
     }

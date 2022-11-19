@@ -57,7 +57,7 @@ const initialState: StateInterface = {
 
 export interface AppContextInterface extends StateInterface {
   displayAlert: (alertType: AlertType, msg: string) => void
-  clearAlert: () => void
+  clearAlert: (time: number) => void
   changeTheme: () => void
   getNowPlaying: () => void
   setModeNowPlaying: () => void

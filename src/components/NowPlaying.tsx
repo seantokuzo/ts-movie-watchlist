@@ -24,12 +24,7 @@ const NowPlaying: React.FC = () => {
         darkMode ? 'white' : 'black'
       }`}
     >
-      <h2
-        className="text-4xl bg-transparent border-8 border-yellow-300 border-dotted px-5 py-1"
-        style={{ boxShadow: '0 0 30px -7px rgba(253, 224, 71)' }}
-      >
-        Now Playing
-      </h2>
+      <h2 className="text-4xl px-5 py-1">Now Playing</h2>
       <div className="w-full mt-4 flex flex-row flex-wrap justify-center items-start">
         {movieEls}
       </div>
