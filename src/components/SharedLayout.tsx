@@ -11,7 +11,6 @@ const SharedLayout = () => {
 
   return (
     <div className="w-full h-full max-w-3xl flex flex-col justify-center items-center">
-      {showAlert && <Alert />}
       {mode === 'now-playing' && <NowPlaying />}
       {mode === 'details' && <MovieDetails />}
       {mode === 'search' && <Search />}
