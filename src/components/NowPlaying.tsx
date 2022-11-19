@@ -24,7 +24,9 @@ const NowPlaying: React.FC = () => {
         darkMode ? 'white' : 'black'
       }`}
     >
-      <h2 className="text-4xl px-5 py-1">Now Playing</h2>
+      <div className="flex justify-center items-center px-6 py-4 bg-black/[0.25] rounded-lg shadow-lg">
+        <h2 className="text-4xl lg:text-6xl font-semibold">Now Playing</h2>
+      </div>
       <div className="w-full mt-4 flex flex-row flex-wrap justify-center items-start">
         {movieEls}
       </div>

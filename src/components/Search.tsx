@@ -44,9 +44,9 @@ const Search: React.FC = () => {
     if (searchResults === 'none') {
       return (
         <div className="w-full mt-4 flex flex-col justify-center items-center">
-          <h3 className="text-4xl font-semibold">No Results</h3>
-          <i className="fa-solid fa-circle-question mt-2 text-8xl text-black/[0.5]"></i>
-          <h3 className="mt-2 text-2xl font-semibold">Try again</h3>
+          <h3 className="text-4xl lg:text-6xl font-semibold">No Results</h3>
+          <i className="fa-solid fa-circle-question my-5 text-9xl text-black/[0.5]"></i>
+          <h3 className="mt-2 text-2xl lg:text-4xl font-semibold">Try again</h3>
         </div>
       )
     }
@@ -61,8 +61,8 @@ const Search: React.FC = () => {
     }
     return (
       <div className="w-full mt-4 flex flex-col justify-center items-center">
-        <h3 className="text-4xl font-semibold">Find some Movies</h3>
-        <i className="fa-solid fa-film mt-2 text-8xl text-black/[0.5]"></i>
+        <h3 className="text-4xl lg:text-6xl font-semibold">Find some Movies</h3>
+        <i className="fa-solid fa-film mt-5 text-9xl text-black/[0.5]"></i>
       </div>
     )
   }
@@ -70,7 +70,7 @@ const Search: React.FC = () => {
   return (
     <div className="w-full px-5 md:px-7 flex flex-col items-center">
       <input
-        className="w-3/4 h-[2.5rem] mt-[-1.25rem] mb-4 px-1 py-1 rounded text-black text-lg font-medium text-center shadow-lg"
+        className="w-3/4 h-[2.5rem] mt-[-1.25rem] mb-4 px-1 py-1 rounded text-black text-lg md:text-xl lg:text-2xl font-medium text-center shadow-lg"
         onChange={(e) => handleSearch(e)}
         type="text"
         placeholder="Search for a movie"
