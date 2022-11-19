@@ -25,7 +25,7 @@ const NowPlaying: React.FC = () => {
       }`}
     >
       <div className="flex justify-center items-center px-6 py-4 bg-black/[0.25] rounded-lg shadow-lg">
-        <h2 className="text-4xl lg:text-6xl font-semibold">Now Playing</h2>
+        <h2 className="text-4xl lg:text-6xl font-semibold text-white">Now Playing</h2>
       </div>
       <div className="w-full mt-4 flex flex-row flex-wrap justify-center items-start">
         {movieEls}
