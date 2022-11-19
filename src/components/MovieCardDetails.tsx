@@ -1,10 +1,14 @@
-import React from 'react'
+// import { useState, useEffect } from 'react'
 import { useAppContext } from '../context/appContext'
 import { translateGenres } from '../data/genre-data'
 import { Movie } from '../util/convertTmdbData'
-import WatchlistButton from './WatchlistButton'
 
 const MovieCardDetails: React.FC<{ movie: Movie }> = ({ movie }) => {
+  // const [isOverflowed, setIsOverflowed] = useState(false)
+  // const [showOverflow, setShowOverflow] = useState(false)
+
+  // console.log(isOverflowed)
+
   const {
     mode,
     watchlist,
@@ -12,6 +16,24 @@ const MovieCardDetails: React.FC<{ movie: Movie }> = ({ movie }) => {
     removeFromWatchlist,
     getMovieDetails
   } = useAppContext()
+
+  // useEffect(() => {
+  //   const descriptionEl = document.getElementById(
+  //     `description-${movie.id}`
+  //   ) as HTMLParagraphElement
+
+  //   console.log(descriptionEl.style)
+
+  //   STACK OVERFLOW SOLUTION
+  //   const currOverflow = descriptionEl.style.overflow
+  //   descriptionEl.style.overflow = 'hidden'
+  //   const isOverflowing =
+  //     descriptionEl.clientHeight < descriptionEl.scrollHeight
+  //   setIsOverflowed(isOverflowing)
+  //   descriptionEl.style.overflow = currOverflow
+
+  //   // eslint-disable-next-line
+  // }, [])
 
   const genres = movie.genre.map((id) => translateGenres(id)).join(', ')
 
@@ -51,7 +73,7 @@ const MovieCardDetails: React.FC<{ movie: Movie }> = ({ movie }) => {
   }
 
   return (
-    <div className="pt-7 pb-6 md:px-8 flex flex-col justify-center items-center text-gray-100">
+    <div className="my-2 pt-7 pb-6 md:px-8 flex flex-col justify-center items-center text-gray-100 bg-black/[0.25] rounded-md shadow-lg">
       <div className="w-full px-6 flex justify-between items-center">
         {moviePosterEl}
         <div className="w-full flex flex-col items-start ml-8">
@@ -62,7 +84,7 @@ const MovieCardDetails: React.FC<{ movie: Movie }> = ({ movie }) => {
               <i className="fa-solid fa-star ml-2 text-yellow-400"></i>
             </div>
             <button
-              className="ml-5 p-[2px] md:p-2 flex justify-center items-center border-2 rounded-full bg-white shadow-lg text-black hover:scale-105"
+              className="ml-5 p-2 flex justify-center items-center border-2 rounded-full bg-white shadow-lg text-black hover:scale-105"
               onClick={handleClick}
             >
               <i
@@ -79,7 +101,12 @@ const MovieCardDetails: React.FC<{ movie: Movie }> = ({ movie }) => {
             <p>{genres}</p>
           </div>
           <div className="mt-2">
-            <p className="text-sm">{movie.plot}</p>
+            <p
+              id={`description-${movie.id}`}
+              className="text-sm max-h-16 overflow-auto text-ellipsis"
+            >
+              {movie.plot}
+            </p>
           </div>
         </div>
       </div>

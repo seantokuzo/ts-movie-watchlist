@@ -11,7 +11,7 @@ const MovieDetails: React.FC = () => {
     showReviews,
     getReviews,
     hideReviews,
-    changeModeNowPlaying
+    setModeNowPlaying
   } = useAppContext()
 
   const genres = details.genre.map((id) => translateGenres(id)).join(', ')
@@ -21,14 +21,14 @@ const MovieDetails: React.FC = () => {
       src={details.poster}
       alt="Movie Poster"
       className="w-2/3 max-w-xs mt-2 mb-4"
-      onClick={changeModeNowPlaying}
+      onClick={setModeNowPlaying}
     ></img>
   ) : (
     <img
       src="./img/no_img.png"
       className="w-2/3 max-w-xs mt-2 mb-4"
       style={{ textShadow: '5px 5px 5px rgba(0, 0, 0, 0.7)' }}
-      onClick={changeModeNowPlaying}
+      onClick={setModeNowPlaying}
       alt="No Poster"
     >
       {/* <p className="text-3xl text-center">Poster Unavailable</p> */}
