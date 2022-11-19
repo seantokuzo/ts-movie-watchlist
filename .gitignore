@@ -25,6 +25,3 @@ yarn-error.log*
 
 # FAKE ENV FILE
 /src/fake.env.tsx
-
-# Build
-# /build
