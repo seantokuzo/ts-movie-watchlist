@@ -21,6 +21,7 @@ export const blankMovieObj = {
 }
 
 export type AppMode = 'now-playing' | 'details' | 'search' | 'watchlist'
+export type AlertType = 'success' | 'danger' | ''
 
 export interface StateInterface {
   darkMode: boolean
@@ -33,7 +34,7 @@ export interface StateInterface {
   watchlist: Movie[] | []
   isLoading: boolean
   showAlert: boolean
-  alertType: 'success' | 'danger' | ''
+  alertType: AlertType
   alertText: string
 }
 
@@ -55,7 +56,7 @@ const initialState: StateInterface = {
 }
 
 export interface AppContextInterface extends StateInterface {
-  tempLoad: () => void
+  displayAlert: (alertType: AlertType, msg: string) => void
   clearAlert: () => void
   changeTheme: () => void
   getNowPlaying: () => void
@@ -79,7 +80,7 @@ export interface AppContextInterface extends StateInterface {
 
 const AppContext = React.createContext<AppContextInterface>({
   ...initialState,
-  tempLoad: () => null,
+  displayAlert: () => null,
   clearAlert: () => null,
   changeTheme: () => null,
   getNowPlaying: () => null,
@@ -101,14 +102,12 @@ type Props = {
 const AppContextProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const tempLoad = (time: number = 1500) => {
-    dispatch({ type: ActionType.TEMP_LOAD })
-    setTimeout(() => {
-      dispatch({ type: ActionType.STOP_TEMP_LOAD })
-    }, time)
+  const displayAlert = (alertType: AlertType, msg: string) => {
+    dispatch({ type: ActionType.SHOW_ALERT, payload: { alertType, msg } })
+    clearAlert()
   }
 
-  const clearAlert = (time: number = 3000) => {
+  const clearAlert = (time: number = 2000) => {
     setTimeout(() => {
       dispatch({ type: ActionType.CLEAR_ALERT })
     }, time)
@@ -126,11 +125,7 @@ const AppContextProvider = ({ children }: Props) => {
       )
       const data = await res.json()
       if (!data.results) {
-        dispatch({
-          type: ActionType.GET_NOW_PLAYING_ERROR,
-          payload: { msg: 'Poopsicle! \nSomething went wrong' }
-        })
-        clearAlert()
+        displayAlert('danger', 'Poopsicle! \nSomething went wrong')
         return
       }
       dispatch({
@@ -145,11 +140,8 @@ const AppContextProvider = ({ children }: Props) => {
         }
       })
     } catch (err) {
-      console.log(err)
-      dispatch({
-        type: ActionType.GET_NOW_PLAYING_ERROR,
-        payload: { msg: 'Poopsicle! \nSomething went wrong' }
-      })
+      // console.log(err)
+      displayAlert('danger', 'Poopsicle! \nSomething went wrong')
     }
     clearAlert()
   }
@@ -184,11 +176,8 @@ const AppContextProvider = ({ children }: Props) => {
         })
       }
     } catch (err) {
-      console.log(err)
-      dispatch({
-        type: ActionType.GET_REVIEWS_ERROR,
-        payload: { msg: 'Uh oh!\nSomething went wrong' }
-      })
+      // console.log(err)
+      displayAlert('danger', 'Uh oh!\nSomething went wrong')
     }
   }
 
@@ -239,7 +228,7 @@ const AppContextProvider = ({ children }: Props) => {
     <AppContext.Provider
       value={{
         ...state,
-        tempLoad,
+        displayAlert,
         clearAlert,
         changeTheme,
         getNowPlaying,

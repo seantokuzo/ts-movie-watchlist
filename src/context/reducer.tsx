@@ -1,14 +1,16 @@
 import { ActionType } from './actions'
 import { StateInterface, blankMovieObj } from './appContext'
 import { Movie, Review } from '../util/convertTmdbData'
+import { AlertType } from './appContext'
 
 type Action =
-  | { type: ActionType.TEMP_LOAD }
-  | { type: ActionType.STOP_TEMP_LOAD }
+  | {
+      type: ActionType.SHOW_ALERT
+      payload: { alertType: AlertType; msg: string }
+    }
   | { type: ActionType.CLEAR_ALERT }
   | { type: ActionType.GET_NOW_PLAYING_BEGIN }
   | { type: ActionType.GET_NOW_PLAYING_SUCCESS; payload: { movies: Movie[] } }
-  | { type: ActionType.GET_NOW_PLAYING_ERROR; payload: { msg: string } }
   | { type: ActionType.SET_MOVIES_SUCCESS; payload: { movies: Movie[] } }
   | { type: ActionType.SET_MOVIES_ERROR; payload: { msg: string } }
   | { type: ActionType.MODE_NOW_PLAYING }
@@ -18,7 +20,6 @@ type Action =
       type: ActionType.GET_REVIEWS_SUCCESS
       payload: { reviews: Review[] | [] }
     }
-  | { type: ActionType.GET_REVIEWS_ERROR; payload: { msg: string } }
   | { type: ActionType.HIDE_REVIEWS }
   | { type: ActionType.SET_SEARCH_MODE }
   | {
@@ -38,19 +39,18 @@ type Action =
 
 const reducer = (state: StateInterface, action: Action): StateInterface => {
   switch (action.type) {
-    case ActionType.TEMP_LOAD:
+    case ActionType.SHOW_ALERT:
       return {
         ...state,
-        isLoading: true
-      }
-    case ActionType.STOP_TEMP_LOAD:
-      return {
-        ...state,
-        isLoading: false
+        isLoading: false,
+        showAlert: true,
+        alertType: action.payload.alertType,
+        alertText: action.payload.msg
       }
     case ActionType.CLEAR_ALERT:
       return {
         ...state,
+        isLoading: false,
         showAlert: false,
         alertType: '',
         alertText: ''
@@ -70,14 +70,6 @@ const reducer = (state: StateInterface, action: Action): StateInterface => {
         ...state,
         movies: action.payload.movies,
         isLoading: false
-      }
-    case ActionType.GET_NOW_PLAYING_ERROR:
-      return {
-        ...state,
-        isLoading: false,
-        showAlert: true,
-        alertType: 'danger',
-        alertText: action.payload.msg
       }
     case ActionType.SET_MOVIES_SUCCESS:
       return {
@@ -115,14 +107,6 @@ const reducer = (state: StateInterface, action: Action): StateInterface => {
         isLoading: false,
         reviews: action.payload.reviews,
         showReviews: true
-      }
-    case ActionType.GET_REVIEWS_ERROR:
-      return {
-        ...state,
-        isLoading: false,
-        showAlert: true,
-        alertType: 'danger',
-        alertText: action.payload.msg
       }
     case ActionType.HIDE_REVIEWS:
       return {

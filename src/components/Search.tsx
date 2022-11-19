@@ -5,7 +5,7 @@ import { convertTmdbData } from '../util/convertTmdbData'
 import MovieCardDetails from './MovieCardDetails'
 
 const Search: React.FC = () => {
-  const { searchResults, setSearchResults } = useAppContext()
+  const { searchResults, setSearchResults, displayAlert } = useAppContext()
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.value) {
@@ -18,15 +18,21 @@ const Search: React.FC = () => {
         .then((res) => res.json())
         .then((data) => {
           if (data.errors) {
+            displayAlert(
+              'danger',
+              'Oops! Something went wrong. Please try again'
+            )
             setSearchResults([])
           } else if (data.total_results === 0) {
             setSearchResults('none')
+            displayAlert('danger', 'Oh no! No Results...\n Try again!')
           } else if (data.results.length > 0) {
             setSearchResults(convertTmdbData(data.results))
           }
         })
         .catch((err) => {
-          console.log(err)
+          // console.log(err);
+          displayAlert('danger', 'Oops! Something went wrong. Please try again')
           setSearchResults([])
         })
     }
