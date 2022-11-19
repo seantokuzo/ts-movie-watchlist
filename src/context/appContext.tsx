@@ -20,11 +20,11 @@ export const blankMovieObj = {
   plot: 'Plot unavailable'
 }
 
-type Modes = 'home' | 'details' | 'search' | 'watchlist'
+export type AppMode = 'now-playing' | 'details' | 'search' | 'watchlist'
 
 export interface StateInterface {
   darkMode: boolean
-  mode: Modes
+  mode: AppMode
   movies: Movie[] | []
   details: Movie
   showReviews: boolean
@@ -41,7 +41,7 @@ const localWatchlist = localStorage.getItem('watchlist')
 
 const initialState: StateInterface = {
   darkMode: true,
-  mode: 'home',
+  mode: 'now-playing',
   movies: [],
   details: blankMovieObj,
   reviews: [],
@@ -55,16 +55,17 @@ const initialState: StateInterface = {
 }
 
 export interface AppContextInterface extends StateInterface {
+  tempLoad: () => void
   clearAlert: () => void
   changeTheme: () => void
   getNowPlaying: () => void
-  changeModeNowPlaying: () => void
+  setModeNowPlaying: () => void
   getMovieDetails: (movie: Movie) => void
   getReviews: (movieId: number) => void
   hideReviews: () => void
-  setSearchMode: () => void
+  setModeSearch: () => void
   setSearchResults: (movies: Movie[] | [] | 'none') => void
-  setWatchlistMode: () => void
+  setModeWatchlist: () => void
   addToWatchlist: (movie: Movie) => void
   removeFromWatchlist: (movie: Movie) => void
 }
@@ -78,16 +79,17 @@ export interface AppContextInterface extends StateInterface {
 
 const AppContext = React.createContext<AppContextInterface>({
   ...initialState,
+  tempLoad: () => null,
   clearAlert: () => null,
   changeTheme: () => null,
   getNowPlaying: () => null,
-  changeModeNowPlaying: () => null,
+  setModeNowPlaying: () => null,
   getMovieDetails: () => null,
   getReviews: () => null,
   hideReviews: () => null,
-  setSearchMode: () => null,
+  setModeSearch: () => null,
   setSearchResults: () => null,
-  setWatchlistMode: () => null,
+  setModeWatchlist: () => null,
   addToWatchlist: () => null,
   removeFromWatchlist: () => null
 })
@@ -98,6 +100,13 @@ type Props = {
 
 const AppContextProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(reducer, initialState)
+
+  const tempLoad = (time: number = 1500) => {
+    dispatch({ type: ActionType.TEMP_LOAD })
+    setTimeout(() => {
+      dispatch({ type: ActionType.STOP_TEMP_LOAD })
+    }, time)
+  }
 
   const clearAlert = (time: number = 3000) => {
     setTimeout(() => {
@@ -124,19 +133,17 @@ const AppContextProvider = ({ children }: Props) => {
         clearAlert()
         return
       }
-      setTimeout(() => {
-        dispatch({
-          type: ActionType.GET_NOW_PLAYING_SUCCESS,
-          payload: {
-            movies: convertTmdbData(
-              data.results.sort(
-                (a: TmdbMovieData, b: TmdbMovieData) =>
-                  b.popularity - a.popularity
-              )
+      dispatch({
+        type: ActionType.GET_NOW_PLAYING_SUCCESS,
+        payload: {
+          movies: convertTmdbData(
+            data.results.sort(
+              (a: TmdbMovieData, b: TmdbMovieData) =>
+                b.popularity - a.popularity
             )
-          }
-        })
-      }, 1500)
+          )
+        }
+      })
     } catch (err) {
       console.log(err)
       dispatch({
@@ -147,7 +154,7 @@ const AppContextProvider = ({ children }: Props) => {
     clearAlert()
   }
 
-  const changeModeNowPlaying = () => {
+  const setModeNowPlaying = () => {
     dispatch({ type: ActionType.MODE_NOW_PLAYING })
   }
 
@@ -159,14 +166,12 @@ const AppContextProvider = ({ children }: Props) => {
   }
 
   const getReviews = async (movieId: number) => {
-    console.log('Get reviews for movieId: ', movieId)
     // dispatch({ type: ActionType.GET_REVIEWS_BEGIN })
     try {
       const res = await fetch(
         `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${TMDB_KEY}&language=en-US&page=1`
       )
       const data = await res.json()
-      console.log(data)
       if (data.results.length > 0) {
         const formattedReviews = data.results.map((review: TmdbReview) => ({
           author: review.author_details.username || review.author,
@@ -191,7 +196,7 @@ const AppContextProvider = ({ children }: Props) => {
     dispatch({ type: ActionType.HIDE_REVIEWS })
   }
 
-  const setSearchMode = () => {
+  const setModeSearch = () => {
     dispatch({ type: ActionType.SET_SEARCH_MODE })
   }
 
@@ -199,7 +204,7 @@ const AppContextProvider = ({ children }: Props) => {
     dispatch({ type: ActionType.SET_SEARCH_RESULTS, payload: { movies } })
   }
 
-  const setWatchlistMode = () => {
+  const setModeWatchlist = () => {
     dispatch({ type: ActionType.SET_WATCHLIST_MODE })
   }
 
@@ -234,16 +239,17 @@ const AppContextProvider = ({ children }: Props) => {
     <AppContext.Provider
       value={{
         ...state,
+        tempLoad,
         clearAlert,
         changeTheme,
         getNowPlaying,
-        changeModeNowPlaying,
+        setModeNowPlaying,
         getMovieDetails,
         getReviews,
         hideReviews,
-        setSearchMode,
+        setModeSearch,
         setSearchResults,
-        setWatchlistMode,
+        setModeWatchlist,
         addToWatchlist,
         removeFromWatchlist
       }}

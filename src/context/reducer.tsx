@@ -3,6 +3,8 @@ import { StateInterface, blankMovieObj } from './appContext'
 import { Movie, Review } from '../util/convertTmdbData'
 
 type Action =
+  | { type: ActionType.TEMP_LOAD }
+  | { type: ActionType.STOP_TEMP_LOAD }
   | { type: ActionType.CLEAR_ALERT }
   | { type: ActionType.GET_NOW_PLAYING_BEGIN }
   | { type: ActionType.GET_NOW_PLAYING_SUCCESS; payload: { movies: Movie[] } }
@@ -35,8 +37,17 @@ type Action =
   | { type: ActionType.CHANGE_THEME }
 
 const reducer = (state: StateInterface, action: Action): StateInterface => {
-  console.log(action.type)
   switch (action.type) {
+    case ActionType.TEMP_LOAD:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case ActionType.STOP_TEMP_LOAD:
+      return {
+        ...state,
+        isLoading: false
+      }
     case ActionType.CLEAR_ALERT:
       return {
         ...state,
@@ -83,8 +94,8 @@ const reducer = (state: StateInterface, action: Action): StateInterface => {
     case ActionType.MODE_NOW_PLAYING:
       return {
         ...state,
-        mode: 'home',
-        details: { ...blankMovieObj },
+        mode: 'now-playing',
+        details: { ...blankMovieObj }
         // searchResults: []
       }
     case ActionType.SET_DETAILS:
@@ -122,7 +133,7 @@ const reducer = (state: StateInterface, action: Action): StateInterface => {
     case ActionType.SET_SEARCH_MODE:
       return {
         ...state,
-        mode: 'search',
+        mode: 'search'
         // searchResults: []
       }
     case ActionType.SET_SEARCH_RESULTS:
@@ -133,7 +144,7 @@ const reducer = (state: StateInterface, action: Action): StateInterface => {
     case ActionType.SET_WATCHLIST_MODE:
       return {
         ...state,
-        mode: 'watchlist',
+        mode: 'watchlist'
         // searchResults: []
       }
     case ActionType.ADD_TO_WATCHLIST:
