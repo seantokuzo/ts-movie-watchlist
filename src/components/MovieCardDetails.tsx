@@ -1,13 +1,11 @@
-// import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useAppContext } from '../context/appContext'
 import { translateGenres } from '../data/genre-data'
 import { Movie } from '../util/convertTmdbData'
 
 const MovieCardDetails: React.FC<{ movie: Movie }> = ({ movie }) => {
-  // const [isOverflowed, setIsOverflowed] = useState(false)
-  // const [showOverflow, setShowOverflow] = useState(false)
-
-  // console.log(isOverflowed)
+  const [isOverflowed, setIsOverflowed] = useState(false)
+  const [showOverflow, setShowOverflow] = useState(false)
 
   const {
     mode,
@@ -17,23 +15,16 @@ const MovieCardDetails: React.FC<{ movie: Movie }> = ({ movie }) => {
     getMovieDetails
   } = useAppContext()
 
-  // useEffect(() => {
-  //   const descriptionEl = document.getElementById(
-  //     `description-${movie.id}`
-  //   ) as HTMLParagraphElement
+  useEffect(() => {
+    const descriptionEl = document.getElementById(
+      `description-${movie.id}`
+    ) as HTMLParagraphElement
 
-  //   console.log(descriptionEl.style)
-
-  //   STACK OVERFLOW SOLUTION
-  //   const currOverflow = descriptionEl.style.overflow
-  //   descriptionEl.style.overflow = 'hidden'
-  //   const isOverflowing =
-  //     descriptionEl.clientHeight < descriptionEl.scrollHeight
-  //   setIsOverflowed(isOverflowing)
-  //   descriptionEl.style.overflow = currOverflow
-
-  //   // eslint-disable-next-line
-  // }, [])
+    if (descriptionEl.scrollHeight > descriptionEl.clientHeight) {
+      setIsOverflowed(true)
+    }
+    // eslint-disable-next-line
+  }, [])
 
   const genres = movie.genre.map((id) => translateGenres(id)).join(', ')
 
@@ -56,7 +47,7 @@ const MovieCardDetails: React.FC<{ movie: Movie }> = ({ movie }) => {
         onClick={() => getMovieDetails(movie)}
         alt="No Poster"
       ></img>
-      <p className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-3xl text-center">
+      <p className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-center">
         Poster Unavailable
       </p>
     </div>
@@ -72,8 +63,33 @@ const MovieCardDetails: React.FC<{ movie: Movie }> = ({ movie }) => {
     return addToWatchlist(movie)
   }
 
+  const addRemoveBtn = (
+    <button
+      className="absolute top-2 right-2 md:top-4 md:right-4 ml-5 p-1 md:p-2 flex justify-center items-center border-2 rounded-full bg-white shadow-lg text-black hover:scale-105"
+      onClick={handleClick}
+    >
+      <i
+        className={`fa-solid fa-${
+          watchlist.some((myMovie) => myMovie.id === movie.id)
+            ? 'minus'
+            : 'plus'
+        } text-[1rem] md:text-[1.5rem]`}
+      ></i>
+    </button>
+  )
+
+  const readMoreBtn = (
+    <button
+      className="text-base lg:text-lg xl:text-xl"
+      onClick={() => setShowOverflow(!showOverflow)}
+    >
+      {showOverflow ? '...Show Less' : '...Read More'}
+    </button>
+  )
+
   return (
-    <div className="my-2 pt-7 pb-6 md:px-8 flex flex-col justify-center items-center text-gray-100 bg-black/[0.25] rounded-md shadow-lg">
+    <div className="relative my-2 pt-7 pb-6 md:px-8 flex flex-col justify-center items-center text-gray-100 bg-black/[0.25] rounded-md shadow-lg">
+      {addRemoveBtn}
       <div className="w-full px-6 flex justify-between items-center">
         {moviePosterEl}
         <div className="w-full flex flex-col items-start ml-8">
@@ -83,30 +99,24 @@ const MovieCardDetails: React.FC<{ movie: Movie }> = ({ movie }) => {
               <p className="text-sm">{movie.rating}</p>
               <i className="fa-solid fa-star ml-2 text-yellow-400"></i>
             </div>
-            <button
-              className="ml-5 p-2 flex justify-center items-center border-2 rounded-full bg-white shadow-lg text-black hover:scale-105"
-              onClick={handleClick}
-            >
-              <i
-                className={`fa-solid fa-${
-                  watchlist.some((myMovie) => myMovie.id === movie.id)
-                    ? 'minus'
-                    : 'plus'
-                } text-xs md:text-sm`}
-              ></i>
-            </button>
           </div>
           <div className="flex flex-col items-start">
             <p className="text-base">({movie.date})</p>
             <p>{genres}</p>
           </div>
-          <div className="mt-2">
+          <div className="mt-2 w-full">
             <p
               id={`description-${movie.id}`}
-              className="text-sm max-h-16 overflow-auto text-ellipsis"
+              className={`text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl w-full ${
+                !showOverflow &&
+                'max-h-[5rem] lg:max-h-[8rem] w-full overflow-hidden text-ellipsis'
+              }`}
             >
               {movie.plot}
             </p>
+            <div className="w-full flex justify-end">
+              {isOverflowed && readMoreBtn}
+            </div>
           </div>
         </div>
       </div>

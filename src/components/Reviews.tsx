@@ -13,7 +13,10 @@ const Reviews: React.FC = () => {
             key={nanoid()}
           >
             <div className="flex justify-between items-center">
-              <h5 className="text-2xl">{review.author}</h5>
+              <div className='flex flex-row justify-center items-center'>
+                <i className="fa-solid fa-user mr-3"></i>
+                <h5 className="text-2xl">{review.author}</h5>
+              </div>
               <h5 className="text-xl">{review.date}</h5>
             </div>
             <p className="text-base">{review.review}</p>

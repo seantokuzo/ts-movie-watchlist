@@ -21,3 +21,5 @@ yarn-debug.log*
 yarn-error.log*
 
 /src/fake.env.tsx
+# Local Netlify folder
+.netlify

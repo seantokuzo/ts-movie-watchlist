@@ -10,7 +10,7 @@ const HeaderNavBtn: React.FC<{ btnType: AppMode }> = ({ btnType }) => {
       if (darkMode) return 'bg-zinc-300 text-black'
       return 'bg-blue-300'
     }
-    return 'bg-none'
+    return 'bg-none text-white'
   }
 
   const handleClick = () => {
