@@ -14,7 +14,7 @@ const Header: React.FC = () => {
         mode === 'search' ? 'pb-8' : 'pb-4'
       }`}
     >
-      <div className="fixed top-3 right-1 lg:scale-150 lg:top-10 lg:right-8">
+      <div className="absolute top-3 right-1 lg:scale-150 lg:top-10 lg:right-8">
         <ThemeToggler />
       </div>
       <h1 className="mt-10 text-6xl lg:text-8xl font-bold text-center text-gray-100">
